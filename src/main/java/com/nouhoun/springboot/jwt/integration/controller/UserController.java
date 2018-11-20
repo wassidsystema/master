@@ -37,11 +37,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nouhoun.springboot.jwt.api.APIResponse;
-import com.nouhoun.springboot.jwt.integration.domain.InfoUser;
-import com.nouhoun.springboot.jwt.integration.domain.Jogo;
-import com.nouhoun.springboot.jwt.integration.domain.JogoPorData;
-import com.nouhoun.springboot.jwt.integration.domain.JogoPorData.StatusJogoPorData;
-import com.nouhoun.springboot.jwt.integration.domain.NotasGols;
 import com.nouhoun.springboot.jwt.integration.domain.UserDTO;
 import com.nouhoun.springboot.jwt.integration.domain.security.Authority;
 import com.nouhoun.springboot.jwt.integration.domain.security.User;
@@ -146,40 +141,13 @@ public class UserController {
 			throws JsonParseException, JsonMappingException, IOException {
 		User user = userService.findUserById(id);
 		
-		InfoUser info = getInfoUser(user); 
-		user.setQntJogos(info.getQntJogos());
-		user.setQntGols(info.getQntGols());
-		user.setMediaNota(info.getMediaNota());
-		user.setMediaGols(info.getMediaGols());
+//		InfoUser info = getInfoUser(user); 
+//		user.setQntJogos(info.getQntJogos());
+//		user.setQntGols(info.getQntGols());
+//		user.setMediaNota(info.getMediaNota());
+//		user.setMediaGols(info.getMediaGols());
 
 		return user;
-	}
-
-	private InfoUser getInfoUser(User user) {
-		List<Jogo> quadra = jogoService.findJogoByUser(user.getId().intValue());
-		Integer countJogos = 0;
-		Integer countGols = 0;
-		Integer countMedia = 0;
-		Double media = new Double(0);
-		for (Jogo jogo : quadra) {
-			if(jogo!= null && !jogo.getJogoPorData().isEmpty()) {
-				countJogos++;
-				for (JogoPorData jogoPorData : jogo.getJogoPorData()) {
-					if(jogoPorData!= null && !jogoPorData.getNotasGols().isEmpty() && StatusJogoPorData.JAJOGADO.equals(jogoPorData.getStatus())) {
-						for (NotasGols notasGols : jogoPorData.getNotasGols()) {
-							if(notasGols.getUserId().intValue() == user.getId()) {
-								countMedia++;
-								media = media + notasGols.getNota();
-								countGols = countGols + notasGols.getQntGols();
-							}
-						}
-					}
-				}
-			}
-			
-		}
-		//InfoUser(Integer qntJogos, Integer qntGols, Double mediaNota, Double mediaGols)
-		return new InfoUser(countJogos,countGols,(media/countMedia),new Double(countGols/countJogos));
 	}
 
 	@CrossOrigin(origins = "*")
