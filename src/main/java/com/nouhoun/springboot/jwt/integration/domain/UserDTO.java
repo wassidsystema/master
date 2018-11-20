@@ -3,8 +3,6 @@ package com.nouhoun.springboot.jwt.integration.domain;
 import java.util.Date;
 import java.util.List;
 
-import com.nouhoun.springboot.jwt.integration.domain.Job.Status;
-
 /**
  * @author: kameshr
  */
@@ -14,7 +12,6 @@ public class UserDTO {
 	private String email;
 	private String name;
 	private String password;
-	private Status active;
 	private int isDono;
 	private List<Role> roles;
 	private String iv;
@@ -31,25 +28,15 @@ public class UserDTO {
     private Date updatedAt;
     private Boolean enabled;
     private String encryptedPassword;
-    private List<Jogo> jogos;
-    private List<Notificacoes> notificacoes;
     private Boolean receberNotificacoes;
     private Boolean isGoleiro;
     private Boolean isSoAdmANoGols;
     private Boolean isSoAdmANoMedia;
     private Boolean isEnviarNotifPorEmail;
-	private Endereco endereco; 
 	private String telefone1;
 	private String telefone;
 
-    public List<Notificacoes> getNotificacoes() {
-		return notificacoes;
-	}
-
-	public void setNotificacoes(List<Notificacoes> notificacoes) {
-		this.notificacoes = notificacoes;
-	}
-
+   
 	public Boolean getReceberNotificacoes() {
 		return receberNotificacoes;
 	}
@@ -84,14 +71,7 @@ public class UserDTO {
 		this.id = id;
 	}
 
-	public Status getActive() {
-		return active;
-	}
-
-	public void setActive(Status active) {
-		this.active = active;
-	}
-
+	
 
 
 	public List<Role> getRoles() {
@@ -236,14 +216,7 @@ public class UserDTO {
 		this.enabled = enabled;
 	}
 
-	public List<Jogo> getJogos() {
-		return jogos;
-	}
-
-	public void setJogos(List<Jogo> jogos) {
-		this.jogos = jogos;
-	}
-
+	
 	public String getFoto() {
 		return foto;
 	}
@@ -292,14 +265,7 @@ public class UserDTO {
 		this.isEnviarNotifPorEmail = isEnviarNotifPorEmail;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
+	
 	public String getTelefone1() {
 		return telefone1;
 	}

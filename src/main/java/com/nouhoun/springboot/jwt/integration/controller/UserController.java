@@ -40,7 +40,6 @@ import com.nouhoun.springboot.jwt.api.APIResponse;
 import com.nouhoun.springboot.jwt.integration.domain.UserDTO;
 import com.nouhoun.springboot.jwt.integration.domain.security.Authority;
 import com.nouhoun.springboot.jwt.integration.domain.security.User;
-import com.nouhoun.springboot.jwt.integration.service.JogoService;
 import com.nouhoun.springboot.jwt.integration.service.UserService;
 
 @RestController
@@ -50,9 +49,6 @@ public class UserController {
 	private static Logger LOG = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	public JogoService jogoService;
 
 	// @Autowired
 	// private JogoService jogoService;

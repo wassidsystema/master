@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,9 +22,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.nouhoun.springboot.jwt.integration.domain.Estado;
-import com.nouhoun.springboot.jwt.integration.domain.Notificacoes;
 
 import net.minidev.json.annotate.JsonIgnore;
 
@@ -108,10 +104,6 @@ public class User {
 	@Column(name = "cidade")
 	private String cidade;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "estado_id", insertable = false, unique = false, nullable = false, updatable = false)
-	private Estado estado;
-
 	@Column(name = "estado_id")
 	private Integer estadoId;
 
@@ -151,10 +143,6 @@ public class User {
 
 	@Column(name = "receberNotificacoes", columnDefinition = "Boolean default true")
 	private Boolean receberNotificacoes;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", insertable = false, unique = false, nullable = false, updatable = false)
-	private List<Notificacoes> notificacoes;
 
 
 	@Column(name = "telefone1")
@@ -179,7 +167,7 @@ public class User {
 			@NotNull @Size(min = 4, max = 100) String password, @NotNull @Size(min = 4, max = 50) String name,
 			@NotNull @Size(min = 4, max = 50) String email, @NotNull Boolean enabled, Date lastPasswordResetDate,
 			List<Authority> authorities, Boolean isGoleiro, Boolean isEnviarNotifPorEmail, Boolean receberNotificacoes,
-			List<Notificacoes> notificacoes, Integer empresaId, Integer qntJogos, Integer qntGols, Double mediaNota,
+			 Integer empresaId, Integer qntJogos, Integer qntGols, Double mediaNota,
 			Double mediaGols) {
 		super();
 		this.id = id;
@@ -193,7 +181,6 @@ public class User {
 		this.isGoleiro = isGoleiro;
 		this.isEnviarNotifPorEmail = isEnviarNotifPorEmail;
 		this.receberNotificacoes = receberNotificacoes;
-		this.notificacoes = notificacoes;
 		this.empresaId = empresaId;
 		this.qntJogos = qntJogos;
 		this.qntGols = qntGols;
@@ -347,14 +334,6 @@ public class User {
 
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
-	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
 	}
 
 	public Integer getEstadoId() {
@@ -539,14 +518,6 @@ public class User {
 
 	public static void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
 		User.passwordEncoder = passwordEncoder;
-	}
-
-	public List<Notificacoes> getNotificacoes() {
-		return notificacoes;
-	}
-
-	public void setNotificacoes(List<Notificacoes> notificacoes) {
-		this.notificacoes = notificacoes;
 	}
     
     
