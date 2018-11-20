@@ -124,3 +124,12 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 # End of https://www.gitignore.io/api/java,maven
+/contabil-front/
+/e-contabil-2.1/
+/econtabil1.0/
+/jwt-spring-security-demo/
+/repository/
+/springboot-jwt/
+/springboot-jwt-2/
+/springboot-jwt2/
+/sysmgmt-controller-rest-war/
