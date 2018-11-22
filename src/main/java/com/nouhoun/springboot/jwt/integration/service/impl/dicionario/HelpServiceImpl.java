@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.GroupMenu;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Help;
 import com.nouhoun.springboot.jwt.integration.repository.dicionario.HelpRepository;
 import com.nouhoun.springboot.jwt.integration.service.dicionario.HelpService;
@@ -25,7 +26,12 @@ public class HelpServiceImpl implements HelpService {
          return helpRepository.save(help);
      }
 
-
+     @Override
+ 	public Help deleteHelp(Help groupmenu) {
+    	 helpRepository.delete(groupmenu);
+ 		return groupmenu;
+ 		
+ 	}
      @Override
      public Help findHelpById(Integer id) {
          return helpRepository.findHelpById(id);

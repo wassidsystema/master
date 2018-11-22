@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.GroupMenu;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Tab;
 import com.nouhoun.springboot.jwt.integration.repository.dicionario.TabRepository;
 import com.nouhoun.springboot.jwt.integration.service.dicionario.TabService;
@@ -25,7 +26,12 @@ public class TabServiceImpl implements TabService {
          return tabRepository.save(tab);
      }
 
-
+     @Override
+ 	public Tab deleteTab(Tab groupmenu) {
+    	 tabRepository.delete(groupmenu);
+ 		return groupmenu;
+ 		
+ 	}
      @Override
      public Tab findTabById(Integer id) {
          return tabRepository.findTabById(id);

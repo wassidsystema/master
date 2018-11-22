@@ -36,6 +36,11 @@ public class CategoriaMenuServiceImpl implements CategoriaMenuService {
           return (List <CategoriaMenu> ) categoriamenuRepository.findCategoriaMenuAll(filter);
       }
 
-
+      @Override
+  	public CategoriaMenu deleteCategoriaMenu(CategoriaMenu groupmenu) {
+    	  categoriamenuRepository.delete(groupmenu);
+  		return groupmenu;
+  		
+  	}
 
 }

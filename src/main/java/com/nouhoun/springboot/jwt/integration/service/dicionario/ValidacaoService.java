@@ -4,6 +4,7 @@
 import java.util.List;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.CategoriaMenu;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Validacao;
 
 
@@ -15,5 +16,6 @@ public Validacao findValidacaoById(Integer id);
 public Validacao saveValidacao(Validacao validacao);
 public Validacao updateValidacao(Validacao validacao);
 public List<Validacao> findValidacaoAll(PaginationFilter filter);
+public Validacao deleteValidacao(Validacao groupmenu);
 
 }

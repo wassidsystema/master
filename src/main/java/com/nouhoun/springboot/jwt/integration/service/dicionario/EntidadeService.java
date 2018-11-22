@@ -4,6 +4,7 @@
 import java.util.List;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.CategoriaMenu;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Entidade;
 
 
@@ -15,5 +16,6 @@ public Entidade findEntidadeById(Integer id);
 public Entidade saveEntidade(Entidade entidade);
 public Entidade updateEntidade(Entidade entidade);
 public List<Entidade> findEntidadeAll(PaginationFilter filter);
+public Entidade deleteEntidade(Entidade groupmenu);
 
 }

@@ -4,6 +4,7 @@
 import java.util.List;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.CategoriaMenu;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Tab;
 
 
@@ -15,5 +16,6 @@ public Tab findTabById(Integer id);
 public Tab saveTab(Tab tab);
 public Tab updateTab(Tab tab);
 public List<Tab> findTabAll(PaginationFilter filter);
+public Tab deleteTab(Tab groupmenu);
 
 }

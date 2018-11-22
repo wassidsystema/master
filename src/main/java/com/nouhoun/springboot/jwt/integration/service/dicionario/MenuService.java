@@ -4,6 +4,7 @@
 import java.util.List;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.CategoriaMenu;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Menu;
 
 
@@ -15,5 +16,6 @@ public Menu findMenuById(Integer id);
 public Menu saveMenu(Menu menu);
 public Menu updateMenu(Menu menu);
 public List<Menu> findMenuAll(PaginationFilter filter);
+public Menu deleteMenu(Menu groupmenu);
 
 }

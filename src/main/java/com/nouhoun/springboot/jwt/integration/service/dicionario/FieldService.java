@@ -15,5 +15,6 @@ public Field findFieldById(Integer id);
 public Field saveField(Field field);
 public Field updateField(Field field);
 public List<Field> findFieldAll(PaginationFilter filter);
+public Field deleteField(Field groupmenu);
 
 }

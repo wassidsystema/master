@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Field;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.GroupMenu;
 import com.nouhoun.springboot.jwt.integration.repository.dicionario.FieldRepository;
 import com.nouhoun.springboot.jwt.integration.service.dicionario.FieldService;
 
@@ -25,7 +26,12 @@ public class FieldServiceImpl implements FieldService {
          return fieldRepository.save(field);
      }
 
-
+     @Override
+ 	public Field deleteField(Field groupmenu) {
+    	 fieldRepository.delete(groupmenu);
+ 		return groupmenu;
+ 		
+ 	}
      @Override
      public Field findFieldById(Integer id) {
          return fieldRepository.findFieldById(id);

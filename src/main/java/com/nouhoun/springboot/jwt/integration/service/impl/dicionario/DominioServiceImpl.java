@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Dominio;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.GroupMenu;
 import com.nouhoun.springboot.jwt.integration.repository.dicionario.DominioRepository;
 import com.nouhoun.springboot.jwt.integration.service.dicionario.DominioService;
 
@@ -24,7 +25,12 @@ public class DominioServiceImpl implements DominioService {
      public Dominio saveDominio(Dominio dominio) {
          return dominioRepository.save(dominio);
      }
-
+     @Override
+ 	public Dominio deleteDominio(Dominio groupmenu) {
+    	 dominioRepository.delete(groupmenu);
+ 		return groupmenu;
+ 		
+ 	}
 
      @Override
      public Dominio findDominioById(Integer id) {

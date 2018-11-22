@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Entidade;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.GroupMenu;
 import com.nouhoun.springboot.jwt.integration.repository.dicionario.EntidadeRepository;
 import com.nouhoun.springboot.jwt.integration.service.dicionario.EntidadeService;
 
@@ -24,7 +25,12 @@ public class EntidadeServiceImpl implements EntidadeService {
      public Entidade saveEntidade(Entidade entidade) {
          return entidadeRepository.save(entidade);
      }
-
+     @Override
+ 	public Entidade deleteEntidade(Entidade groupmenu) {
+    	 entidadeRepository.delete(groupmenu);
+ 		return groupmenu;
+ 		
+ 	}
 
      @Override
      public Entidade findEntidadeById(Integer id) {

@@ -4,6 +4,7 @@
 import java.util.List;
 
 import com.nouhoun.springboot.jwt.api.PaginationFilter;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.CategoriaMenu;
 import com.nouhoun.springboot.jwt.integration.domain.dicionario.Dominio;
 
 
@@ -15,5 +16,6 @@ public Dominio findDominioById(Integer id);
 public Dominio saveDominio(Dominio dominio);
 public Dominio updateDominio(Dominio dominio);
 public List<Dominio> findDominioAll(PaginationFilter filter);
+public Dominio deleteDominio(Dominio groupmenu);
 
 }

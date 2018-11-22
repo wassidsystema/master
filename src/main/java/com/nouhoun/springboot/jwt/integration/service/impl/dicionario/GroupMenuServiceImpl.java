@@ -35,6 +35,12 @@ public class GroupMenuServiceImpl implements GroupMenuService {
       public List < GroupMenu > findGroupMenuAll(PaginationFilter filter) {
           return (List <GroupMenu> ) groupmenuRepository.findGroupMenuAll(filter);
       }
+	@Override
+	public GroupMenu deleteGroupMenu(GroupMenu groupmenu) {
+		groupmenuRepository.delete(groupmenu);
+		return groupmenu;
+		
+	}
 
 
 

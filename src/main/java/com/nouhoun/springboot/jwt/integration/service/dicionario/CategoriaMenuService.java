@@ -15,5 +15,6 @@ public CategoriaMenu findCategoriaMenuById(Integer id);
 public CategoriaMenu saveCategoriaMenu(CategoriaMenu categoriamenu);
 public CategoriaMenu updateCategoriaMenu(CategoriaMenu categoriamenu);
 public List<CategoriaMenu> findCategoriaMenuAll(PaginationFilter filter);
+public CategoriaMenu deleteCategoriaMenu(CategoriaMenu groupmenu);
 
 }

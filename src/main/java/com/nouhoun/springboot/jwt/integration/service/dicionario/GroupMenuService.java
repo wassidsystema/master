@@ -14,6 +14,7 @@ public interface GroupMenuService {
 public GroupMenu findGroupMenuById(Integer id);
 public GroupMenu saveGroupMenu(GroupMenu groupmenu);
 public GroupMenu updateGroupMenu(GroupMenu groupmenu);
+public GroupMenu deleteGroupMenu(GroupMenu groupmenu);
 public List<GroupMenu> findGroupMenuAll(PaginationFilter filter);
 
 }

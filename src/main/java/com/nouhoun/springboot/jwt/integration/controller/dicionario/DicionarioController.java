@@ -1,4 +1,4 @@
-/** create by system gera-java version 1.0.0 21/11/2018 0:12 : 58*/
+/** create by system gera-java version 1.0.0 21/11/2018 22:3 : 40*/
 
 package com.nouhoun.springboot.jwt.integration.controller.dicionario;
 
@@ -17,37 +17,33 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nouhoun.springboot.jwt.integration.domain.Chat;
-import com.nouhoun.springboot.jwt.integration.domain.ChatItens;
-import com.nouhoun.springboot.jwt.integration.domain.security.User;
-import com.nouhoun.springboot.jwt.integration.service.ChatService;
+import com.nouhoun.springboot.jwt.api.PaginationFilter;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.CategoriaMenu;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.Dominio;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.Entidade;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.Field;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.GroupMenu;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.Help;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.Menu;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.Pagina;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.Tab;
+import com.nouhoun.springboot.jwt.integration.domain.dicionario.Validacao;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.CategoriaMenuService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.DominioService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.EntidadeService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.FieldService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.GroupMenuService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.HelpService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.MenuService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.PaginaService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.TabService;
+import com.nouhoun.springboot.jwt.integration.service.dicionario.ValidacaoService;
 
-package com.nouhoun.springboot.jwt.integration.controller.dicionario;
-
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.qat.framework.model.response.InternalResultsResponse;
-import com.qat.framework.util.ResponseHandler;
-import com.qat.samples.sysmgmt.bac.IDicionarioBAC;
-import com.qat.samples.sysmgmt.model.Dicionario;
-import com.qat.samples.sysmgmt.model.request.PagedInquiryRequest;
-import com.qat.samples.sysmgmt.model.request.DicionarioMaintenanceRequest;
-import com.qat.samples.sysmgmt.model.request.RefreshRequest;
-import com.qat.samples.sysmgmt.model.response.DicionarioResponse;
 
 /**
  * The Class DicionarioController.
@@ -62,9 +58,54 @@ public class DicionarioController
 	/** The Constant LOG. */
 	private static final Logger LOG = LoggerFactory.getLogger(DicionarioController.class);
 
-	/** The dicionario Service. */
+	/** The groupmenu Service. */
 @Autowired
-	private DicionarioService dicionarioService;
+private GroupMenuService groupmenuService;
+
+
+	/** The categoriamenu Service. */
+@Autowired
+private CategoriaMenuService categoriamenuService;
+
+
+	/** The menu Service. */
+@Autowired
+private MenuService menuService;
+
+
+	/** The help Service. */
+@Autowired
+private HelpService helpService;
+
+
+	/** The pagina Service. */
+@Autowired
+private PaginaService paginaService;
+
+
+	/** The tab Service. */
+@Autowired
+private TabService tabService;
+
+
+	/** The entidade Service. */
+@Autowired
+private EntidadeService entidadeService;
+
+
+	/** The field Service. */
+@Autowired
+private FieldService fieldService;
+
+
+	/** The validacao Service. */
+@Autowired
+private ValidacaoService validacaoService;
+
+
+	/** The dominio Service. */
+@Autowired
+private DominioService dominioService;
 
 
 //===================================### GROUPMENU ####======================================
@@ -77,24 +118,12 @@ public class DicionarioController
 	 * @return the groupmenu response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/groupmenu/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<GroupMenu>>  refreshGroupMenus(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<GroupMenu> groupmenus = dicionarioService.refreshGroupMenus(retList, retPaged);
-			return APIResponse.toOkResponse(groupmenus);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, groupmenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<GroupMenu>> refreshGroupMenuPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<GroupMenu>>(groupmenuService.findGroupMenuAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch groupmenu paged.
@@ -102,23 +131,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the groupmenu response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/groupmenu/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<GroupMenu>> fetchGroupMenuPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<GroupMenu>>(dicionarioService.findGroupMenuAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, groupmenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<GroupMenu>> fetchGroupMenuPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<GroupMenu>>(groupmenuService.findGroupMenuAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert groupmenu.
@@ -126,73 +144,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the groupmenu response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public GroupMenuResponse insertGroupMenu(@RequestBody GroupMenuMaintenanceRequest request)
-	{
-		GroupMenuResponse groupmenuResponse = new GroupMenuResponse();
-		try
-		{
-			InternalResultsResponse<GroupMenu> internalResponse = getDicionarioBAC().insertGroupMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(groupmenuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, groupmenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return groupmenuResponse;
-	}
-
-	/**
-	 * Update groupmenu.
-	 *
-	 * @param request the request
-	 * @return the groupmenu response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public GroupMenuResponse updateGroupMenu(@RequestBody GroupMenuMaintenanceRequest request)
-	{
-		GroupMenuResponse groupmenuResponse = new GroupMenuResponse();
-		try
-		{
-			InternalResultsResponse<GroupMenu> internalResponse = getDicionarioBAC().updateGroupMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(groupmenuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, groupmenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return groupmenuResponse;
-	}
-
-	/**
-	 * Delete groupmenu.
-	 *
-	 * @param request the request
-	 * @return the groupmenu response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public GroupMenuResponse deleteGroupMenu(@RequestBody GroupMenuMaintenanceRequest request)
-	{
-		GroupMenuResponse groupmenuResponse = new GroupMenuResponse();
-
-		try
-		{
-			InternalResultsResponse<GroupMenu> internalResponse = getDicionarioBAC().deleteGroupMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(groupmenuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, groupmenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return groupmenuResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/groupmenu/insert", method = RequestMethod.POST)
+public ResponseEntity<GroupMenu> insertGroupMenu(@RequestBody String groupmenus,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     GroupMenu groupmenu = mapper.readValue(groupmenus, GroupMenu.class);
+    return new ResponseEntity<GroupMenu>(groupmenuService.saveGroupMenu(groupmenu), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/groupmenu/update", method = RequestMethod.POST)
+public ResponseEntity<GroupMenu> updateGroupMenu(@RequestBody GroupMenu groupmenu,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<GroupMenu>(groupmenuService.updateGroupMenu(groupmenu), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/groupmenu/delete", method = RequestMethod.POST)
+public ResponseEntity<GroupMenu> deleteGroupMenu(@RequestBody GroupMenu groupmenu,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<GroupMenu>(groupmenuService.deleteGroupMenu(groupmenu), HttpStatus.OK);
+}
 
 
 //===================================### CATEGORIAMENU ####======================================
@@ -205,24 +182,12 @@ public class DicionarioController
 	 * @return the categoriamenu response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/categoriamenu/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<CategoriaMenu>>  refreshCategoriaMenus(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<CategoriaMenu> categoriamenus = dicionarioService.refreshCategoriaMenus(retList, retPaged);
-			return APIResponse.toOkResponse(categoriamenus);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, categoriamenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<CategoriaMenu>> refreshCategoriaMenuPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<CategoriaMenu>>(categoriamenuService.findCategoriaMenuAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch categoriamenu paged.
@@ -230,23 +195,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the categoriamenu response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/categoriamenu/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<CategoriaMenu>> fetchCategoriaMenuPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<CategoriaMenu>>(dicionarioService.findCategoriaMenuAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, categoriamenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<CategoriaMenu>> fetchCategoriaMenuPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<CategoriaMenu>>(categoriamenuService.findCategoriaMenuAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert categoriamenu.
@@ -254,73 +208,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the categoriamenu response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public CategoriaMenuResponse insertCategoriaMenu(@RequestBody CategoriaMenuMaintenanceRequest request)
-	{
-		CategoriaMenuResponse categoriamenuResponse = new CategoriaMenuResponse();
-		try
-		{
-			InternalResultsResponse<CategoriaMenu> internalResponse = getDicionarioBAC().insertCategoriaMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(categoriamenuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, categoriamenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return categoriamenuResponse;
-	}
-
-	/**
-	 * Update categoriamenu.
-	 *
-	 * @param request the request
-	 * @return the categoriamenu response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public CategoriaMenuResponse updateCategoriaMenu(@RequestBody CategoriaMenuMaintenanceRequest request)
-	{
-		CategoriaMenuResponse categoriamenuResponse = new CategoriaMenuResponse();
-		try
-		{
-			InternalResultsResponse<CategoriaMenu> internalResponse = getDicionarioBAC().updateCategoriaMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(categoriamenuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, categoriamenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return categoriamenuResponse;
-	}
-
-	/**
-	 * Delete categoriamenu.
-	 *
-	 * @param request the request
-	 * @return the categoriamenu response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public CategoriaMenuResponse deleteCategoriaMenu(@RequestBody CategoriaMenuMaintenanceRequest request)
-	{
-		CategoriaMenuResponse categoriamenuResponse = new CategoriaMenuResponse();
-
-		try
-		{
-			InternalResultsResponse<CategoriaMenu> internalResponse = getDicionarioBAC().deleteCategoriaMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(categoriamenuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, categoriamenuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return categoriamenuResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/categoriamenu/insert", method = RequestMethod.POST)
+public ResponseEntity<CategoriaMenu> insertCategoriaMenu(@RequestBody String categoriamenus,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     CategoriaMenu categoriamenu = mapper.readValue(categoriamenus, CategoriaMenu.class);
+    return new ResponseEntity<CategoriaMenu>(categoriamenuService.saveCategoriaMenu(categoriamenu), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/categoriamenu/update", method = RequestMethod.POST)
+public ResponseEntity<CategoriaMenu> updateCategoriaMenu(@RequestBody CategoriaMenu categoriamenu,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<CategoriaMenu>(categoriamenuService.updateCategoriaMenu(categoriamenu), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/categoriamenu/delete", method = RequestMethod.POST)
+public ResponseEntity<CategoriaMenu> deleteCategoriaMenu(@RequestBody CategoriaMenu categoriamenu,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<CategoriaMenu>(categoriamenuService.deleteCategoriaMenu(categoriamenu), HttpStatus.OK);
+}
 
 
 //===================================### MENU ####======================================
@@ -333,24 +246,12 @@ public class DicionarioController
 	 * @return the menu response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/menu/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Menu>>  refreshMenus(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<Menu> menus = dicionarioService.refreshMenus(retList, retPaged);
-			return APIResponse.toOkResponse(menus);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, menuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<Menu>> refreshMenuPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<Menu>>(menuService.findMenuAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch menu paged.
@@ -358,23 +259,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the menu response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/menu/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<Menu>> fetchMenuPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<Menu>>(dicionarioService.findMenuAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, menuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<Menu>> fetchMenuPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<Menu>>(menuService.findMenuAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert menu.
@@ -382,73 +272,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the menu response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public MenuResponse insertMenu(@RequestBody MenuMaintenanceRequest request)
-	{
-		MenuResponse menuResponse = new MenuResponse();
-		try
-		{
-			InternalResultsResponse<Menu> internalResponse = getDicionarioBAC().insertMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(menuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, menuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return menuResponse;
-	}
-
-	/**
-	 * Update menu.
-	 *
-	 * @param request the request
-	 * @return the menu response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public MenuResponse updateMenu(@RequestBody MenuMaintenanceRequest request)
-	{
-		MenuResponse menuResponse = new MenuResponse();
-		try
-		{
-			InternalResultsResponse<Menu> internalResponse = getDicionarioBAC().updateMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(menuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, menuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return menuResponse;
-	}
-
-	/**
-	 * Delete menu.
-	 *
-	 * @param request the request
-	 * @return the menu response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public MenuResponse deleteMenu(@RequestBody MenuMaintenanceRequest request)
-	{
-		MenuResponse menuResponse = new MenuResponse();
-
-		try
-		{
-			InternalResultsResponse<Menu> internalResponse = getDicionarioBAC().deleteMenu(request);
-			ResponseHandler.handleOperationStatusAndMessages(menuResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, menuResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return menuResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/menu/insert", method = RequestMethod.POST)
+public ResponseEntity<Menu> insertMenu(@RequestBody String menus,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     Menu menu = mapper.readValue(menus, Menu.class);
+    return new ResponseEntity<Menu>(menuService.saveMenu(menu), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/menu/update", method = RequestMethod.POST)
+public ResponseEntity<Menu> updateMenu(@RequestBody Menu menu,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Menu>(menuService.updateMenu(menu), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/menu/delete", method = RequestMethod.POST)
+public ResponseEntity<Menu> deleteMenu(@RequestBody Menu menu,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Menu>(menuService.deleteMenu(menu), HttpStatus.OK);
+}
 
 
 //===================================### HELP ####======================================
@@ -461,24 +310,12 @@ public class DicionarioController
 	 * @return the help response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/help/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Help>>  refreshHelps(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<Help> helps = dicionarioService.refreshHelps(retList, retPaged);
-			return APIResponse.toOkResponse(helps);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, helpResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<Help>> refreshHelpPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<Help>>(helpService.findHelpAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch help paged.
@@ -486,23 +323,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the help response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/help/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<Help>> fetchHelpPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<Help>>(dicionarioService.findHelpAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, helpResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<Help>> fetchHelpPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<Help>>(helpService.findHelpAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert help.
@@ -510,73 +336,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the help response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public HelpResponse insertHelp(@RequestBody HelpMaintenanceRequest request)
-	{
-		HelpResponse helpResponse = new HelpResponse();
-		try
-		{
-			InternalResultsResponse<Help> internalResponse = getDicionarioBAC().insertHelp(request);
-			ResponseHandler.handleOperationStatusAndMessages(helpResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, helpResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return helpResponse;
-	}
-
-	/**
-	 * Update help.
-	 *
-	 * @param request the request
-	 * @return the help response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public HelpResponse updateHelp(@RequestBody HelpMaintenanceRequest request)
-	{
-		HelpResponse helpResponse = new HelpResponse();
-		try
-		{
-			InternalResultsResponse<Help> internalResponse = getDicionarioBAC().updateHelp(request);
-			ResponseHandler.handleOperationStatusAndMessages(helpResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, helpResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return helpResponse;
-	}
-
-	/**
-	 * Delete help.
-	 *
-	 * @param request the request
-	 * @return the help response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public HelpResponse deleteHelp(@RequestBody HelpMaintenanceRequest request)
-	{
-		HelpResponse helpResponse = new HelpResponse();
-
-		try
-		{
-			InternalResultsResponse<Help> internalResponse = getDicionarioBAC().deleteHelp(request);
-			ResponseHandler.handleOperationStatusAndMessages(helpResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, helpResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return helpResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/help/insert", method = RequestMethod.POST)
+public ResponseEntity<Help> insertHelp(@RequestBody String helps,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     Help help = mapper.readValue(helps, Help.class);
+    return new ResponseEntity<Help>(helpService.saveHelp(help), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/help/update", method = RequestMethod.POST)
+public ResponseEntity<Help> updateHelp(@RequestBody Help help,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Help>(helpService.updateHelp(help), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/help/delete", method = RequestMethod.POST)
+public ResponseEntity<Help> deleteHelp(@RequestBody Help help,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Help>(helpService.deleteHelp(help), HttpStatus.OK);
+}
 
 
 //===================================### PAGINA ####======================================
@@ -589,24 +374,12 @@ public class DicionarioController
 	 * @return the pagina response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/pagina/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Pagina>>  refreshPaginas(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<Pagina> paginas = dicionarioService.refreshPaginas(retList, retPaged);
-			return APIResponse.toOkResponse(paginas);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, paginaResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<Pagina>> refreshPaginaPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<Pagina>>(paginaService.findPaginaAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch pagina paged.
@@ -614,23 +387,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the pagina response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/pagina/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<Pagina>> fetchPaginaPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<Pagina>>(dicionarioService.findPaginaAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, paginaResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<Pagina>> fetchPaginaPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<Pagina>>(paginaService.findPaginaAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert pagina.
@@ -638,73 +400,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the pagina response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public PaginaResponse insertPagina(@RequestBody PaginaMaintenanceRequest request)
-	{
-		PaginaResponse paginaResponse = new PaginaResponse();
-		try
-		{
-			InternalResultsResponse<Pagina> internalResponse = getDicionarioBAC().insertPagina(request);
-			ResponseHandler.handleOperationStatusAndMessages(paginaResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, paginaResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return paginaResponse;
-	}
-
-	/**
-	 * Update pagina.
-	 *
-	 * @param request the request
-	 * @return the pagina response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public PaginaResponse updatePagina(@RequestBody PaginaMaintenanceRequest request)
-	{
-		PaginaResponse paginaResponse = new PaginaResponse();
-		try
-		{
-			InternalResultsResponse<Pagina> internalResponse = getDicionarioBAC().updatePagina(request);
-			ResponseHandler.handleOperationStatusAndMessages(paginaResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, paginaResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return paginaResponse;
-	}
-
-	/**
-	 * Delete pagina.
-	 *
-	 * @param request the request
-	 * @return the pagina response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public PaginaResponse deletePagina(@RequestBody PaginaMaintenanceRequest request)
-	{
-		PaginaResponse paginaResponse = new PaginaResponse();
-
-		try
-		{
-			InternalResultsResponse<Pagina> internalResponse = getDicionarioBAC().deletePagina(request);
-			ResponseHandler.handleOperationStatusAndMessages(paginaResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, paginaResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return paginaResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/pagina/insert", method = RequestMethod.POST)
+public ResponseEntity<Pagina> insertPagina(@RequestBody String paginas,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     Pagina pagina = mapper.readValue(paginas, Pagina.class);
+    return new ResponseEntity<Pagina>(paginaService.savePagina(pagina), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/pagina/update", method = RequestMethod.POST)
+public ResponseEntity<Pagina> updatePagina(@RequestBody Pagina pagina,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Pagina>(paginaService.updatePagina(pagina), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/pagina/delete", method = RequestMethod.POST)
+public ResponseEntity<Pagina> deletePagina(@RequestBody Pagina pagina,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Pagina>(paginaService.deletePagina(pagina), HttpStatus.OK);
+}
 
 
 //===================================### TAB ####======================================
@@ -717,24 +438,12 @@ public class DicionarioController
 	 * @return the tab response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/tab/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Tab>>  refreshTabs(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<Tab> tabs = dicionarioService.refreshTabs(retList, retPaged);
-			return APIResponse.toOkResponse(tabs);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, tabResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<Tab>> refreshTabPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<Tab>>(tabService.findTabAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch tab paged.
@@ -742,23 +451,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the tab response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/tab/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<Tab>> fetchTabPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<Tab>>(dicionarioService.findTabAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, tabResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<Tab>> fetchTabPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<Tab>>(tabService.findTabAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert tab.
@@ -766,73 +464,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the tab response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public TabResponse insertTab(@RequestBody TabMaintenanceRequest request)
-	{
-		TabResponse tabResponse = new TabResponse();
-		try
-		{
-			InternalResultsResponse<Tab> internalResponse = getDicionarioBAC().insertTab(request);
-			ResponseHandler.handleOperationStatusAndMessages(tabResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, tabResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return tabResponse;
-	}
-
-	/**
-	 * Update tab.
-	 *
-	 * @param request the request
-	 * @return the tab response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public TabResponse updateTab(@RequestBody TabMaintenanceRequest request)
-	{
-		TabResponse tabResponse = new TabResponse();
-		try
-		{
-			InternalResultsResponse<Tab> internalResponse = getDicionarioBAC().updateTab(request);
-			ResponseHandler.handleOperationStatusAndMessages(tabResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, tabResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return tabResponse;
-	}
-
-	/**
-	 * Delete tab.
-	 *
-	 * @param request the request
-	 * @return the tab response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public TabResponse deleteTab(@RequestBody TabMaintenanceRequest request)
-	{
-		TabResponse tabResponse = new TabResponse();
-
-		try
-		{
-			InternalResultsResponse<Tab> internalResponse = getDicionarioBAC().deleteTab(request);
-			ResponseHandler.handleOperationStatusAndMessages(tabResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, tabResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return tabResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/tab/insert", method = RequestMethod.POST)
+public ResponseEntity<Tab> insertTab(@RequestBody String tabs,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     Tab tab = mapper.readValue(tabs, Tab.class);
+    return new ResponseEntity<Tab>(tabService.saveTab(tab), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/tab/update", method = RequestMethod.POST)
+public ResponseEntity<Tab> updateTab(@RequestBody Tab tab,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Tab>(tabService.updateTab(tab), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/tab/delete", method = RequestMethod.POST)
+public ResponseEntity<Tab> deleteTab(@RequestBody Tab tab,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Tab>(tabService.deleteTab(tab), HttpStatus.OK);
+}
 
 
 //===================================### ENTIDADE ####======================================
@@ -845,24 +502,12 @@ public class DicionarioController
 	 * @return the entidade response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/entidade/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Entidade>>  refreshEntidades(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<Entidade> entidades = dicionarioService.refreshEntidades(retList, retPaged);
-			return APIResponse.toOkResponse(entidades);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, entidadeResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<Entidade>> refreshEntidadePaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<Entidade>>(entidadeService.findEntidadeAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch entidade paged.
@@ -870,23 +515,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the entidade response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/entidade/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<Entidade>> fetchEntidadePaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<Entidade>>(dicionarioService.findEntidadeAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, entidadeResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<Entidade>> fetchEntidadePaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<Entidade>>(entidadeService.findEntidadeAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert entidade.
@@ -894,73 +528,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the entidade response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public EntidadeResponse insertEntidade(@RequestBody EntidadeMaintenanceRequest request)
-	{
-		EntidadeResponse entidadeResponse = new EntidadeResponse();
-		try
-		{
-			InternalResultsResponse<Entidade> internalResponse = getDicionarioBAC().insertEntidade(request);
-			ResponseHandler.handleOperationStatusAndMessages(entidadeResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, entidadeResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return entidadeResponse;
-	}
-
-	/**
-	 * Update entidade.
-	 *
-	 * @param request the request
-	 * @return the entidade response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public EntidadeResponse updateEntidade(@RequestBody EntidadeMaintenanceRequest request)
-	{
-		EntidadeResponse entidadeResponse = new EntidadeResponse();
-		try
-		{
-			InternalResultsResponse<Entidade> internalResponse = getDicionarioBAC().updateEntidade(request);
-			ResponseHandler.handleOperationStatusAndMessages(entidadeResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, entidadeResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return entidadeResponse;
-	}
-
-	/**
-	 * Delete entidade.
-	 *
-	 * @param request the request
-	 * @return the entidade response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public EntidadeResponse deleteEntidade(@RequestBody EntidadeMaintenanceRequest request)
-	{
-		EntidadeResponse entidadeResponse = new EntidadeResponse();
-
-		try
-		{
-			InternalResultsResponse<Entidade> internalResponse = getDicionarioBAC().deleteEntidade(request);
-			ResponseHandler.handleOperationStatusAndMessages(entidadeResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, entidadeResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return entidadeResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/entidade/insert", method = RequestMethod.POST)
+public ResponseEntity<Entidade> insertEntidade(@RequestBody String entidades,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     Entidade entidade = mapper.readValue(entidades, Entidade.class);
+    return new ResponseEntity<Entidade>(entidadeService.saveEntidade(entidade), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/entidade/update", method = RequestMethod.POST)
+public ResponseEntity<Entidade> updateEntidade(@RequestBody Entidade entidade,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Entidade>(entidadeService.updateEntidade(entidade), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/entidade/delete", method = RequestMethod.POST)
+public ResponseEntity<Entidade> deleteEntidade(@RequestBody Entidade entidade,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Entidade>(entidadeService.deleteEntidade(entidade), HttpStatus.OK);
+}
 
 
 //===================================### FIELD ####======================================
@@ -973,24 +566,12 @@ public class DicionarioController
 	 * @return the field response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/field/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Field>>  refreshFields(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<Field> fields = dicionarioService.refreshFields(retList, retPaged);
-			return APIResponse.toOkResponse(fields);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, fieldResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<Field>> refreshFieldPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<Field>>(fieldService.findFieldAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch field paged.
@@ -998,23 +579,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the field response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/field/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<Field>> fetchFieldPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<Field>>(dicionarioService.findFieldAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, fieldResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<Field>> fetchFieldPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<Field>>(fieldService.findFieldAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert field.
@@ -1022,73 +592,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the field response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public FieldResponse insertField(@RequestBody FieldMaintenanceRequest request)
-	{
-		FieldResponse fieldResponse = new FieldResponse();
-		try
-		{
-			InternalResultsResponse<Field> internalResponse = getDicionarioBAC().insertField(request);
-			ResponseHandler.handleOperationStatusAndMessages(fieldResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, fieldResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return fieldResponse;
-	}
-
-	/**
-	 * Update field.
-	 *
-	 * @param request the request
-	 * @return the field response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public FieldResponse updateField(@RequestBody FieldMaintenanceRequest request)
-	{
-		FieldResponse fieldResponse = new FieldResponse();
-		try
-		{
-			InternalResultsResponse<Field> internalResponse = getDicionarioBAC().updateField(request);
-			ResponseHandler.handleOperationStatusAndMessages(fieldResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, fieldResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return fieldResponse;
-	}
-
-	/**
-	 * Delete field.
-	 *
-	 * @param request the request
-	 * @return the field response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public FieldResponse deleteField(@RequestBody FieldMaintenanceRequest request)
-	{
-		FieldResponse fieldResponse = new FieldResponse();
-
-		try
-		{
-			InternalResultsResponse<Field> internalResponse = getDicionarioBAC().deleteField(request);
-			ResponseHandler.handleOperationStatusAndMessages(fieldResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, fieldResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return fieldResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/field/insert", method = RequestMethod.POST)
+public ResponseEntity<Field> insertField(@RequestBody String fields,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     Field field = mapper.readValue(fields, Field.class);
+    return new ResponseEntity<Field>(fieldService.saveField(field), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/field/update", method = RequestMethod.POST)
+public ResponseEntity<Field> updateField(@RequestBody Field field,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Field>(fieldService.updateField(field), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/field/delete", method = RequestMethod.POST)
+public ResponseEntity<Field> deleteField(@RequestBody Field field,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Field>(fieldService.deleteField(field), HttpStatus.OK);
+}
 
 
 //===================================### VALIDACAO ####======================================
@@ -1101,24 +630,12 @@ public class DicionarioController
 	 * @return the validacao response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/validacao/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Validacao>>  refreshValidacaos(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<Validacao> validacaos = dicionarioService.refreshValidacaos(retList, retPaged);
-			return APIResponse.toOkResponse(validacaos);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, validacaoResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<Validacao>> refreshValidacaoPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<Validacao>>(validacaoService.findValidacaoAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch validacao paged.
@@ -1126,23 +643,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the validacao response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/validacao/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<Validacao>> fetchValidacaoPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<Validacao>>(dicionarioService.findValidacaoAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, validacaoResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<Validacao>> fetchValidacaoPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<Validacao>>(validacaoService.findValidacaoAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert validacao.
@@ -1150,73 +656,32 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the validacao response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public ValidacaoResponse insertValidacao(@RequestBody ValidacaoMaintenanceRequest request)
-	{
-		ValidacaoResponse validacaoResponse = new ValidacaoResponse();
-		try
-		{
-			InternalResultsResponse<Validacao> internalResponse = getDicionarioBAC().insertValidacao(request);
-			ResponseHandler.handleOperationStatusAndMessages(validacaoResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, validacaoResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return validacaoResponse;
-	}
-
-	/**
-	 * Update validacao.
-	 *
-	 * @param request the request
-	 * @return the validacao response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public ValidacaoResponse updateValidacao(@RequestBody ValidacaoMaintenanceRequest request)
-	{
-		ValidacaoResponse validacaoResponse = new ValidacaoResponse();
-		try
-		{
-			InternalResultsResponse<Validacao> internalResponse = getDicionarioBAC().updateValidacao(request);
-			ResponseHandler.handleOperationStatusAndMessages(validacaoResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, validacaoResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return validacaoResponse;
-	}
-
-	/**
-	 * Delete validacao.
-	 *
-	 * @param request the request
-	 * @return the validacao response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public ValidacaoResponse deleteValidacao(@RequestBody ValidacaoMaintenanceRequest request)
-	{
-		ValidacaoResponse validacaoResponse = new ValidacaoResponse();
-
-		try
-		{
-			InternalResultsResponse<Validacao> internalResponse = getDicionarioBAC().deleteValidacao(request);
-			ResponseHandler.handleOperationStatusAndMessages(validacaoResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, validacaoResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return validacaoResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/validacao/insert", method = RequestMethod.POST)
+public ResponseEntity<Validacao> insertValidacao(@RequestBody String validacaos,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     Validacao validacao = mapper.readValue(validacaos, Validacao.class);
+    return new ResponseEntity<Validacao>(validacaoService.saveValidacao(validacao), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/validacao/update", method = RequestMethod.POST)
+public ResponseEntity<Validacao> updateValidacao(@RequestBody Validacao validacao,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Validacao>(validacaoService.updateValidacao(validacao), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/validacao/delete", method = RequestMethod.POST)
+public ResponseEntity<Validacao> deleteValidacao(@RequestBody Validacao validacao,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Validacao>(validacaoService.deleteValidacao(validacao), HttpStatus.OK);
+}
 
 
 //===================================### DOMINIO ####======================================
@@ -1229,24 +694,12 @@ public class DicionarioController
 	 * @return the dominio response
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	@RequestMapping(value = "/dominio/refresh", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Dominio>>  refreshDominios(@RequestParam("refreshInt") Integer refreshInt,
-			@RequestParam("retList") Boolean retList,
-			@RequestParam("retPaged") Boolean retPaged)
-	{
-		try
-		{
-			List<Dominio> dominios = dicionarioService.refreshDominios(retList, retPaged);
-			return APIResponse.toOkResponse(dominios);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, dominioResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-
-	}
+ public ResponseEntity<List<Dominio>> refreshDominioPaged(@RequestBody PaginationFilter requestString)
+ {
+     return new ResponseEntity<List<Dominio>>(dominioService.findDominioAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Fetch dominio paged.
@@ -1254,23 +707,12 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the dominio response
 	 */
-	@RequestMapping(value = "/fetchPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/dominio/fetchPage", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<Dominio>> fetchDominioPaged(@RequestBody String requestString)
-	{
-		try
-		{
-			ObjectMapper mapper = new ObjectMapper();
-			Request request = mapper.readValue(requestString, Request.class);
-
-			return new ResponseEntity<List<Dominio>>(dicionarioService.findDominioAll(request), HttpStatus.OK);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, dominioResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-	}
+	public ResponseEntity<List<Dominio>> fetchDominioPaged(@RequestBody PaginationFilter requestString)
+	 {
+     return new ResponseEntity<List<Dominio>>(dominioService.findDominioAll(requestString), HttpStatus.OK);
+ }
 
 	/**
 	 * Insert dominio.
@@ -1278,72 +720,31 @@ public class DicionarioController
 	 * @param request the request
 	 * @return the dominio response
 	 */
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	@ResponseBody
-	public DominioResponse insertDominio(@RequestBody DominioMaintenanceRequest request)
-	{
-		DominioResponse dominioResponse = new DominioResponse();
-		try
-		{
-			InternalResultsResponse<Dominio> internalResponse = getDicionarioBAC().insertDominio(request);
-			ResponseHandler.handleOperationStatusAndMessages(dominioResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, dominioResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return dominioResponse;
-	}
-
-	/**
-	 * Update dominio.
-	 *
-	 * @param request the request
-	 * @return the dominio response
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public DominioResponse updateDominio(@RequestBody DominioMaintenanceRequest request)
-	{
-		DominioResponse dominioResponse = new DominioResponse();
-		try
-		{
-			InternalResultsResponse<Dominio> internalResponse = getDicionarioBAC().updateDominio(request);
-			ResponseHandler.handleOperationStatusAndMessages(dominioResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, dominioResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return dominioResponse;
-	}
-
-	/**
-	 * Delete dominio.
-	 *
-	 * @param request the request
-	 * @return the dominio response
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public DominioResponse deleteDominio(@RequestBody DominioMaintenanceRequest request)
-	{
-		DominioResponse dominioResponse = new DominioResponse();
-
-		try
-		{
-			InternalResultsResponse<Dominio> internalResponse = getDicionarioBAC().deleteDominio(request);
-			ResponseHandler.handleOperationStatusAndMessages(dominioResponse, internalResponse, true);
-		}
-		catch (Exception ex)
-		{
-			ResponseHandler.handleException(LOG, dominioResponse, ex, DEFAULT_EXCEPTION_MSG,
-					new Object[] {ex.toString()});
-		}
-		return dominioResponse;
-
-	}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/dominio/insert", method = RequestMethod.POST)
+public ResponseEntity<Dominio> insertDominio(@RequestBody String dominios,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+     ObjectMapper mapper = new ObjectMapper();
+     Dominio dominio = mapper.readValue(dominios, Dominio.class);
+    return new ResponseEntity<Dominio>(dominioService.saveDominio(dominio), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/dominio/update", method = RequestMethod.POST)
+public ResponseEntity<Dominio> updateDominio(@RequestBody Dominio dominio,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Dominio>(dominioService.updateDominio(dominio), HttpStatus.OK);
+}
+@CrossOrigin(origins = "*")
+@RequestMapping(value = "/dominio/delete", method = RequestMethod.POST)
+public ResponseEntity<Dominio> deleteDominio(@RequestBody Dominio dominio,
+        HttpServletRequest request)
+        throws JsonParseException, JsonMappingException, IOException {
+    
+    return new ResponseEntity<Dominio>(dominioService.deleteDominio(dominio), HttpStatus.OK);
+}
 
 }
