@@ -36,6 +36,7 @@ public class Chat{
     @JoinColumn(name = "jogo_id",insertable = false, unique = false, nullable = false, updatable = false)	
 	private Jogo jogo;
 	
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name="chat_id", referencedColumnName="chat_id", nullable = false, insertable = false, updatable = false)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

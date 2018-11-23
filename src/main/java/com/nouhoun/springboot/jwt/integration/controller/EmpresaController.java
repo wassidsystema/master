@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,7 +54,6 @@ import com.nouhoun.springboot.jwt.integration.domain.EmpresaDTO;
 import com.nouhoun.springboot.jwt.integration.domain.Horarios;
 import com.nouhoun.springboot.jwt.integration.domain.Job;
 import com.nouhoun.springboot.jwt.integration.domain.Jogo;
-import com.nouhoun.springboot.jwt.integration.domain.Notificacoes;
 import com.nouhoun.springboot.jwt.integration.domain.Jogo.Dias;
 import com.nouhoun.springboot.jwt.integration.domain.Jogo.Status;
 import com.nouhoun.springboot.jwt.integration.domain.Quadra;
