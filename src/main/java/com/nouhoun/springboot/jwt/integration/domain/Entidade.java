@@ -43,11 +43,11 @@ public class Entidade
     @Column(name = "DESCRICAO")
     private String descricao;
 
-//    /** The econtabil fields for the Entidade. */
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name="entidade_id", referencedColumnName="entidade_id", nullable = false, insertable = false, updatable = false)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    private List<Field> fields;
+    /** The econtabil fields for the Entidade. */
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="entidade_id", referencedColumnName="entidade_id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Field> fields;
 
 
 
@@ -123,25 +123,25 @@ public class Entidade
         this.descricao = descricao;
     }
 
-//    /**
-//    /**
-//     * Gets the fields.
-//     *
-//     * @return the fields
-//     */
-//    public List<Field> getFields()
-//    {
-//        return fields;
-//    }
-//
-//    /**
-//     * Sets the fields.
-//     *
-//* @param id the fields to set
-// */
-//public void setFields(List<Field> fields)
-//{
-//        this.fields = fields;
-//    }
+    /**
+    /**
+     * Gets the fields.
+     *
+     * @return the fields
+     */
+    public List<Field> getFields()
+    {
+        return fields;
+    }
+
+    /**
+     * Sets the fields.
+     *
+	 * @param id the fields to set
+	 */
+	public void setFields(List<Field> fields)
+	{
+        this.fields = fields;
+    }
 
  }

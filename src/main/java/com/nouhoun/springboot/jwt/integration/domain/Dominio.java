@@ -34,6 +34,9 @@ public class Dominio
     /** The econtabil valor for the Dominio. */
     @Column(name = "VALOR")
     private String valor;
+    
+    @Column(name = "FIELD_ID")
+    private String field_id;
 
 
 

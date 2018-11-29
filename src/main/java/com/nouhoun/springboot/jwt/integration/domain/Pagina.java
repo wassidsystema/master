@@ -45,14 +45,14 @@ public class Pagina
     private Integer status;
 
     /** The econtabil help for the Pagina. */
-//    @OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-//    @JoinColumn(name = "help_id",insertable = false, unique = false, nullable = false, updatable = false)
-//    private Help help;
+    @OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "help_id",insertable = false, unique = false, nullable = false, updatable = false)
+    private Help help;
     
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name="tab_id", nullable = false, insertable = false, updatable = false)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    private List<Tab> tabs;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="tab_id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Tab> tabs;
 
 
 

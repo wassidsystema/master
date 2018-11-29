@@ -2,13 +2,21 @@
 package com.nouhoun.springboot.jwt.integration.domain;
 
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * This class is a representation of an Account (i.e Checking, Savings, etc.). This represents an account for a transfer
@@ -55,11 +63,26 @@ public class Field
     @Column(name = "XML")
     private Integer xml;
     
+    @Column(name = "NOME")
+    private String nome;
+    
+    @Column(name = "LABEL")
+    private String label;
+    
     @Column(name = "entidade_id")
     private Integer entidadeId;
     
     @Column(name = "tab_id")
     private Integer tabId;
+    
+    @Column(name = "oculto")
+    private Integer oculto;
+    
+    /** The econtabil fields for the Tab. */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "field_id", referencedColumnName = "field_id", nullable = false, insertable = false, updatable = false)
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private List<Dominio> dominio;
 
 
 
@@ -258,6 +281,46 @@ public class Field
 
 	public void setTabId(Integer tabId) {
 		this.tabId = tabId;
+	}
+
+
+	public String getNome() {
+		return nome;
+	}
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+	public String getLabel() {
+		return label;
+	}
+
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+
+	public List<Dominio> getDominio() {
+		return dominio;
+	}
+
+
+	public void setDominio(List<Dominio> dominio) {
+		this.dominio = dominio;
+	}
+
+
+	public Integer getOculto() {
+		return oculto;
+	}
+
+
+	public void setOculto(Integer oculto) {
+		this.oculto = oculto;
 	}
 
  }

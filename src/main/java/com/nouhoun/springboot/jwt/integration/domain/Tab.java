@@ -1,13 +1,21 @@
 /** create by system gera-java version 1.0.0 20/11/2018 21:33 : 59*/
 package com.nouhoun.springboot.jwt.integration.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * This class is a representation of an Account (i.e Checking, Savings, etc.).
@@ -36,12 +44,15 @@ public class Tab {
 	/** The econtabil order for the Tab. */
 	@Column(name = "ORDERS")
 	private Integer order;
+	
+	@Column(name = "pagina_id")
+	private Integer pagina_id;
 
 	/** The econtabil fields for the Tab. */
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@JoinColumn(name = "tab_id", referencedColumnName = "tab_id", nullable = false, insertable = false, updatable = false)
-//	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-//	private List<Field> fields;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "tab_id", referencedColumnName = "tab_id", nullable = false, insertable = false, updatable = false)
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private List<Field> fields;
 
 	/**
 	 * Default constructor.
@@ -122,22 +133,20 @@ public class Tab {
 		this.order = order;
 	}
 
-//	/**
-//	 * /** Gets the fields.
-//	 *
-//	 * @return the fields
-//	 */
-//	public List<Field> getFields() {
-//		return fields;
-//	}
-//
-//	/**
-//	 * Sets the fields.
-//	 *
-//	 * @param id the fields to set
-//	 */
-//	public void setFields(List<Field> fields) {
-//		this.fields = fields;
-//	}
+	public Integer getPagina_id() {
+		return pagina_id;
+	}
+
+	public void setPagina_id(Integer pagina_id) {
+		this.pagina_id = pagina_id;
+	}
+
+	public List<Field> getFields() {
+		return fields;
+	}
+
+	public void setFields(List<Field> fields) {
+		this.fields = fields;
+	}
 
 }
