@@ -12,6 +12,7 @@
                             <th class="numeric">Nº Jogos</th>
                             <th class="numeric">Media Nota</th>
                             <th class="numeric">Nº Gols</th>
+                            <th>Data Proximo Jogo</th>
                             <th>Opções</th>
                         </tr>
                     </thead>
@@ -23,6 +24,7 @@
                             <td class="numeric">{{jogo.jogoPorData.length}}</td>
                             <td class="numeric">{{calcMedia(jogo.jogoPorData)}}%</td>
                             <td class="numeric">{{calcGols(jogo.jogoPorData)}}</td>
+                            <td>{{jogo.dtProxjogo}}</td>
                             <td>
                                 <button class="btn btn-primary" type="button" ng-click="gravarGols(jogo.id)">Visualizar</button>
                                 <button class="btn btn-danger" type="button" ng-click="cancel()">Sair</button>

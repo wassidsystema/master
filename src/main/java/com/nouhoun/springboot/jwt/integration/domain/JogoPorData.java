@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,7 +26,8 @@ public class JogoPorData {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jogo_por_data_seq")
+	@SequenceGenerator(name = "jogo_por_data_seq", sequenceName = "jogo_por_data_seq", allocationSize = 1)
 	@Column(name = "jogoPorData_id")
 	private Integer id;
 

@@ -117,6 +117,13 @@ public class JogoServiceImpl implements JogoService{
 	public List<Jogo> findJogoByStatus(Status status, Processo processo) {
 		return jogoRepository.findJogoByStatus(status,processo);
 	}
+	
+	@Override
+	public List<Jogo> findJogoByStatus(Status status, Date date) {
+		return jogoRepository.findJogoByStatusDate(status, date);
+	}
+	
+	
 	@Override
 	public List<JogoPorData> findJogoPorDataByStatus(StatusJogoPorData status, Integer jogoId) {
 		return jogoPorDataRepository.findJogoPorDataByStatus(status, jogoId);

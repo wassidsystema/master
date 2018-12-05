@@ -363,7 +363,7 @@ public class JogoController {
 		default:
 			break;
 		}
-		if (jogo.getProcesso().equals(Processo.GERADO)) {
+		if (jogo.getProcesso().equals(Processo.AGUARDANDO_DATA)) {
 			insertProximoJogoPorData(jogo, user);
 		}
 		user.setAprovadoDate(new Date());

@@ -1,5 +1,6 @@
 package com.nouhoun.springboot.jwt.integration.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,5 +34,8 @@ public interface JogoRepository extends JpaRepository<Jogo, Long> {
 
     @Query("SELECT u  FROM Jogo u WHERE u.status =?1 and u.processo =?2")
     List<Jogo> findJogoByStatus(Status status, Processo processo);
+    
+    @Query("SELECT u  FROM Jogo u WHERE u.status =?1")
+    List<Jogo> findJogoByStatusDate(Status status, Date processo);
 	
 }

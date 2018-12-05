@@ -1,5 +1,6 @@
 package com.nouhoun.springboot.jwt.integration.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -31,7 +32,7 @@ public class Jogo {
 	    }
 	 
 	 public enum Processo {
-	       FINALIZAO, AGUARDANDO, GERADO
+	       AGUARDANDO_DATA, TIRANDO_TIME,JOGANDO,AGUARDANDO_PAGAMENTO
 	    }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -72,12 +73,15 @@ public class Jogo {
 //	@JoinTable(name = "user_jogos", joinColumns = @JoinColumn(name="jogo_id", nullable = false,  insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false,  insertable = false, updatable = false))
 //	private List<UserJogo2> usersJogo2;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="jogo_id",  insertable = false,unique = false, nullable = false, updatable = false)
 	private List<UserJogo2> usersJogo;
 
 	@Column(name = "user_id")
 	private Integer user_id;
+	
+	@Column(name = "data_prox_jogo")
+	private Date dtProxjogo;
 	
 	@Column(name = "maximoConfirmados")
 	private Integer maximoConfirmados;
@@ -219,6 +223,12 @@ public class Jogo {
 	}
 	public void setJogoPorData(List<JogoPorData> jogoPorData) {
 		this.jogoPorData = jogoPorData;
+	}
+	public Date getDtProxjogo() {
+		return dtProxjogo;
+	}
+	public void setDtProxjogo(Date dtProxjogo) {
+		this.dtProxjogo = dtProxjogo;
 	}
 
 

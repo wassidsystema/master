@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.nouhoun.springboot.jwt.integration.domain.security.User;
@@ -37,7 +38,8 @@ public class UserJogo2 {
 	    }
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_jogos_seq")
+	@SequenceGenerator(name = "user_jogos_seq", sequenceName = "user_jogos_seq", allocationSize = 1)
 	@Column(name = "id")
 	private int id;
 	

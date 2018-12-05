@@ -19,6 +19,7 @@ public interface JogoService {
 	public List<Jogo> findJogoByUser(Integer empresa);
 	
 	public List<Jogo> findJogoByStatus(Status status,Processo processo);
+	public List<Jogo> findJogoByStatus(Status status, Date date);
 	
 	public Jogo findJogoById(Integer empresa);
 	public List<Jogo> findAllJogo();
