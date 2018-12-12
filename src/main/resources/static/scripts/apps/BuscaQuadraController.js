@@ -96,6 +96,8 @@
                 var oRequest = { empresaId: 82, email: oAvaliacao.email, mensagen: oAvaliacao.menssagem, avaliacaoItens: $scope.oAvaliacao, updatedAt: new Date() };
                 AuthService.saveAvaliacao(oRequest, function(oResp) {
                     console.log(oResp)
+                        //  $scope.avaliacaoList = [];
+                    $scope.avaliacao = oResp.avaliacao;
                 });
                 debugger
             }
