@@ -690,7 +690,7 @@ public class JogoController {
 				data.shouldDownloadFile2(jogo.getDia(), gc, jogo.getHoraFinal()).getTime(), jogo.getId(),
 				jogo.getUsersJogo(), StatusJogoPorData.AJOGAR, jogo.getQuadraId());
 
-		JogoPorData jogoPor = jogoService.findJogoPorDataUserConfirmDTO(jogo.getId(), jogoPorData.getData(),
+		JogoPorData jogoPor = jogoService.findJogoPorDataUserConfirmDTO(jogo.getId(), jogoPorData.getDataInicial(),
 				jogoPorData.getDataFinal());
 		if (jogoPor != null) {
 			// SALVANDO JOGADOR POR JOGO DATA

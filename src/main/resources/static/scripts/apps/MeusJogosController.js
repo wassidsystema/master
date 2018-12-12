@@ -1,6 +1,6 @@
 (function() {
-    angular.module('wdApp.apps.meusJogos', []).controller('MeusJogosController', ['$window','$scope', 'jogoFactory', 'AuthService', '$rootScope', '$location', '$http', '$interval', 'SysMgmtData', 'toastr', 'toastrConfig',
-        function($window,$scope, jogoFactory, AuthService, $rootScope, $location, localStorageService, toastr, $http, $interval, SysMgmtData, toastr, toastrConfig) {
+    angular.module('wdApp.apps.meusJogos', []).controller('MeusJogosController', ['$window', '$scope', 'jogoFactory', 'AuthService', '$rootScope', '$location', '$http', '$interval', 'SysMgmtData', 'toastr', 'toastrConfig',
+        function($window, $scope, jogoFactory, AuthService, $rootScope, $location, localStorageService, toastr, $http, $interval, SysMgmtData, toastr, toastrConfig) {
             var evm = this;
             evm.combo = {};
             $scope.bUserJogoConfirm = false;
@@ -203,9 +203,9 @@
             }
 
             $scope.gravarGols = function(jogoId) {
-            	debugger
-            	//$location.path('/#/dashboard?id='+jogoId);
-            	$location.url('/dashboard' + "/?id="+jogoId);
+                debugger
+                //$location.path('/#/dashboard?id='+jogoId);
+                $location.url('/dashboard' + "/?id=" + jogoId);
             }
 
             $scope.calcMedia = function(oJogos) {

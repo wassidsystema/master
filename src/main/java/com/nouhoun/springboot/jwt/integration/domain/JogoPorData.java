@@ -31,10 +31,10 @@ public class JogoPorData {
 	@Column(name = "jogoPorData_id")
 	private Integer id;
 
-	@Column(name = "Data")
-	private Date data;
+	@Column(name = "data_inicial")
+	private Date dataInicial;
 
-	@Column(name = "DataFinal")
+	@Column(name = "data_final")
 	private Date dataFinal;
 
 	@Column(name = "jogo_id")
@@ -45,7 +45,6 @@ public class JogoPorData {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "jogoPorData_id", referencedColumnName = "jogoPorData_id", nullable = false, insertable = false, updatable = false)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<UserJogoData> userJogoData = new ArrayList<UserJogoData>();
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -61,13 +60,7 @@ public class JogoPorData {
 		this.id = id;
 	}
 
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
+	
 
 	public Date getDataFinal() {
 		return dataFinal;
@@ -96,7 +89,7 @@ public class JogoPorData {
 	public JogoPorData(Date dataInicial, Date dataFInal, Integer jogoId, List<UserJogo2> user, StatusJogoPorData status,
 			int quadraId) {
 		super();
-		this.data = dataInicial;
+		this.dataInicial = dataInicial;
 		this.dataFinal = dataFInal;
 		this.jogoId = jogoId;
 		this.status = status;
@@ -148,11 +141,19 @@ public class JogoPorData {
 	public JogoPorData(JogoPorDataDTO jogoPorData) {
 		super();
 		this.id = jogoPorData.getId();
-		this.data = jogoPorData.getData();
+		this.dataInicial = jogoPorData.getData();
 		this.dataFinal = jogoPorData.getDataFinal();
 		this.jogoId = jogoPorData.getJogoId();
 		this.status = jogoPorData.getStatus();
 		this.userJogoData = jogoPorData.getUserJogoData();
+	}
+
+	public Date getDataInicial() {
+		return dataInicial;
+	}
+
+	public void setDataInicial(Date dataInicial) {
+		this.dataInicial = dataInicial;
 	}
 
 }

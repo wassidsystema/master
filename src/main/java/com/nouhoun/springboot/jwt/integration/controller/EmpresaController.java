@@ -176,7 +176,7 @@ public class EmpresaController {
 		
 		Object token = auth.getCredentials();
 		authResp.put("token", token);
-		authResp.put("user", avaliacao);
+		authResp.put("avaliacao", avaliacaoService.findAvaliacaoByEmpresa(avaliacao.getEmpresaId()));
 		authResp.put("Error", error);
 		return APIResponse.toOkResponse(authResp);
 
