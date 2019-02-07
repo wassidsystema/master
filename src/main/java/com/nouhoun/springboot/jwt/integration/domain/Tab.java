@@ -47,6 +47,9 @@ public class Tab {
 	
 	@Column(name = "pagina_id")
 	private Integer pagina_id;
+	
+	@Column(name = "pagina_aux")
+	private Integer paginaAux;
 
 	/** The econtabil fields for the Tab. */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -147,6 +150,14 @@ public class Tab {
 
 	public void setFields(List<Field> fields) {
 		this.fields = fields;
+	}
+
+	public Integer getPaginaAux() {
+		return paginaAux;
+	}
+
+	public void setPaginaAux(Integer paginaAux) {
+		this.paginaAux = paginaAux;
 	}
 
 }

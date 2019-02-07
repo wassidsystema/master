@@ -34,16 +34,26 @@ public class GroupMenu
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "groupmenu_seq")
     @SequenceGenerator(name = "groupmenu_seq", sequenceName = "groupmenu_seq", allocationSize = 1)
     private Integer id;
+    
+    @Column(name = "MENU_ID")
+	private Integer menuId;
 
     /** The econtabil nome for the GroupMenu. */
     @Column(name = "NOME")
     private String nome;
+    
+	/** The econtabil nivel for the Menu. */
+	@Column(name = "ORDER")
+	private Integer order;
+	
+	@Column(name = "ICONE")
+	private String icone;
 
-    /** The econtabil pagina_id for the GroupMenu. */
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name="groupMenu_id", referencedColumnName="groupMenu_id", nullable = false, insertable = true, updatable = true)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
- //   private List<CategoriaMenu> pagina_id;
+	/** The econtabil pagina_id for the Menu. */
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "GROUPMENU_ID", nullable = true, insertable = false, updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private List<Pagina> paginasss;
 
 
 
@@ -98,25 +108,46 @@ public class GroupMenu
         this.nome = nome;
     }
 
-//    /**
-//    /**
-//     * Gets the pagina_id.
-//     *
-//     * @return the pagina_id
-//     */
-//    public List<CategoriaMenu> getPagina_id()
-//    {
-//        return pagina_id;
-//    }
-//
-//    /**
-//     * Sets the pagina_id.
-//     *
-//* @param id the pagina_id to set
-// */
-//public void setPagina_id(List<CategoriaMenu> pagina_id)
-//{
-//        this.pagina_id = pagina_id;
-//    }
+
+	
+
+	public List<Pagina> getPaginasss() {
+		return paginasss;
+	}
+
+
+	public void setPaginasss(List<Pagina> paginasss) {
+		this.paginasss = paginasss;
+	}
+
+
+	public Integer getMenuId() {
+		return menuId;
+	}
+
+
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
+	}
+
+
+	public Integer getOrder() {
+		return order;
+	}
+
+
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
+
+
+	public String getIcone() {
+		return icone;
+	}
+
+
+	public void setIcone(String icone) {
+		this.icone = icone;
+	}
 
  }

@@ -60,7 +60,7 @@
   ]).controller('RatingDemoController', [
     '$scope', function($scope) {
       $scope.rate = 7;
-      $scope.max = 5;
+      $scope.max = 10;
       $scope.isReadonly = false;
       $scope.hoveringOver = function(value) {
         $scope.overStar = value;
@@ -86,6 +86,26 @@
   ]).controller('EditorController', [
     '$scope', function($scope) {
 		 $scope.editorContent = '<h2>Try me! Put your cursor here!</h2>';
+    }
+  ]).controller('WizardFormController', [
+    '$scope', function($scope) {
+      $scope.wizard = {
+        firstName: 'some name',
+        lastName: '',
+        email: '',
+        password: '',
+        age: '',
+        address: ''
+      };
+      $scope.isValidateStep1 = function() {
+        console.log($scope.wizard_step1);
+        console.log($scope.wizard.firstName !== '');
+        console.log($scope.wizard.lastName === '');
+        return console.log($scope.wizard.firstName !== '' && $scope.wizard.lastName !== '');
+      };
+      return $scope.finishedWizard = function() {
+        return console.log('yoo');
+      };
     }
   ]).controller('FormConstraintsController', [
     '$scope', function($scope) {
@@ -122,10 +142,8 @@
     '$scope', function($scope) {
       var original;
       $scope.user = {
-    	nome: '',	  
         email: '',
-        password: '',
-        isGoleiro: false
+        password: ''
       };
       $scope.showInfoOnSubmit = false;
       original = angular.copy($scope.user);
@@ -173,5 +191,5 @@
       };
     }
   ]);
-  
+
 }).call(this);

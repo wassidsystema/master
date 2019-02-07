@@ -1,31 +1,44 @@
 (function() {
 'use strict';
 angular.module('wdApp.apps.stocksdata', [])
-	.factory('StockData', ['$http', 'toastr', 'toastrConfig', function($http, toastr, toastrConfig){
+	.factory('YahooData', ['$http', 'toastr', 'toastrConfig', function($http, toastr, toastrConfig){
 
 		toastrConfig.closeButton = true;
 	
 		return{
-				getStockData: function(_stocks, _callback){
+				getYahooFinanceData: function(_stocks, _callback){
 					var defs = {
-						baseURL: 'https://api.iextrading.com/1.0/stock/market/batch?types=quote&symbols=',
+						desc: false,
+						baseURL: 'http://query.yahooapis.com/v1/public/yql?q=',
+						query: 'select {display} from yahoo.finance.quotes where symbol in ({quotes}) | sort(field="{sortBy}", descending="{desc}")',
+						suffixURL: '&env=store://datatables.org/alltableswithkeys&format=json'
 					};
-		
-					defs.url = defs.baseURL + _stocks;	
-						
+
+					var opts = {
+						display: ['*'],
+						stocks: _stocks
+					};
+					var query = {
+						display: opts.display.join(', '),
+						quotes: opts.stocks.map(function (stock) {
+							return '"' + stock + '"';
+						}).join(', ')
+					};
+
+					defs.query = defs.query
+						.replace('{display}', query.display)
+						.replace('{quotes}', query.quotes)
+						.replace('{sortBy}', defs.sortBy)
+						.replace('{desc}', defs.desc);
+
+					defs.url = defs.baseURL + defs.query + defs.suffixURL;					
+					
 					$http.get(defs.url).
 					  then(function(_resp) {
-					  
-						var _quotes = [];
-						
-						for (var i in _stocks) {
-							_quotes[i] = _resp.data[_stocks[i]].quote;
-						};
-					  
-						_callback(_quotes);
+						_callback(_resp.data.query.results.quote);
 					  }).catch( // Catch
 						function(_respError) {
-							toastr.error('Error calling the REST stock api: ' + _respError.status + " " +  _respError.statusText, 'Error');						
+							toastr.error('Error calling Yahoo stock api: ' + _respError.status + " " +  _respError.statusText, 'Error');						
 							_respError = "";  
 							_callback(_respError);
 					 });

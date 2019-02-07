@@ -35,10 +35,22 @@ public class Pagina
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pagina_seq")
     @SequenceGenerator(name = "pagina_seq", sequenceName = "pagina_seq", allocationSize = 1)
     private Integer id;
+    
+    @Column(name = "GROUPMENU_ID")
+    private Integer groupMenuId;
 
     /** The econtabil pagina for the Pagina. */
     @Column(name = "PAGINA")
     private String pagina;
+    
+    @Column(name = "ENTIDADE_ID")
+    private Integer entidadeId;
+    
+    @Column(name = "EXISTE_PAG", nullable = false,  columnDefinition = "Integer default 0")
+    private Integer existe;
+    
+    @Column(name = "pagina_fisica", nullable = false,  columnDefinition = "String default 0")
+    private String paginaFisica;
 
     /** The econtabil status for the Pagina. */
     @Column(name = "STATUS")
@@ -46,11 +58,11 @@ public class Pagina
 
     /** The econtabil help for the Pagina. */
     @OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "help_id",insertable = false, unique = false, nullable = false, updatable = false)
+    @JoinColumn(name = "help_id",insertable = false, unique = false, nullable = true, updatable = false)
     private Help help;
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="tab_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name="pagina_id", nullable = false, insertable = false, updatable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Tab> tabs;
 
@@ -127,6 +139,68 @@ public class Pagina
     {
         this.status = status;
     }
+
+
+	public Integer getEntidadeId() {
+		return entidadeId;
+	}
+
+
+	public void setEntidadeId(Integer entidadeId) {
+		this.entidadeId = entidadeId;
+	}
+
+
+	public Integer getExiste() {
+		return existe;
+	}
+
+
+	public void setExiste(Integer existe) {
+		this.existe = existe;
+	}
+
+
+	public String getPaginaFisica() {
+		return paginaFisica;
+	}
+
+
+	public void setPaginaFisica(String paginaFisica) {
+		this.paginaFisica = paginaFisica;
+	}
+
+
+	public Help getHelp() {
+		return help;
+	}
+
+
+	public void setHelp(Help help) {
+		this.help = help;
+	}
+
+
+	public List<Tab> getTabs() {
+		return tabs;
+	}
+
+
+	public void setTabs(List<Tab> tabs) {
+		this.tabs = tabs;
+	}
+
+
+	public Integer getGroupMenuId() {
+		return groupMenuId;
+	}
+
+
+	public void setGroupMenuId(Integer groupMenuId) {
+		this.groupMenuId = groupMenuId;
+	}
+	
+	
 
 //    /**
 //    /**

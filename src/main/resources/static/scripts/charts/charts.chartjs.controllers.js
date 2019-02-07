@@ -51,7 +51,7 @@
 	});
 	
     chartJS.controller('ChartjsRadarController', function ($scope) {
-	  var cvm = this;				
+		var cvm = this;				
 	  cvm.radarlabels =["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"];
 	  cvm.radarseries = ['Series R1', 'Series R2'];
 	  cvm.radardata = [
@@ -119,13 +119,13 @@
 		var cvm = this;				
 		cvm.dynlabels = ['Online Sales', 'In-Store Sales', 'Mail-Order Sales', 'Tele Sales', 'Corporate Sales'];
 		cvm.dyndata = [300, 500, 100, 140, 120];
-		cvm.type = 'polarArea';
+		cvm.type = 'PolarArea';
 		cvm.dynoptions = {
 		  tooltipEvents: [],
 		  showTooltips: true,
 		  tooltipCaretSize: 0,
 		  onAnimationComplete: function () {
-			    if (cvm.type === 'pie')
+			    if (cvm.type === 'Pie')
 			    {	   
 					this.showTooltip(this.segments, true);
 			   	}	
@@ -133,83 +133,9 @@
 		};		
 
 		cvm.toggle = function () {
-		  cvm.type = cvm.type === 'polarArea' ?
-			'pie' : 'polarArea';
+		  cvm.type = cvm.type === 'PolarArea' ?
+			'Pie' : 'PolarArea';
 		};
-    }); 
-	
-    chartJS.controller('ChartjsMixedController', function ($scope) {
-		  var cvm = this;				
-		  cvm.colors = ['#45b7cd', '#ff6384', '#ff8e72'];
-
-		  cvm.labels1 = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-		  cvm.data1 = [
-			[65, -59, 80, 81, -56, 55, -40],
-			[28, 48, -40, 19, 86, 27, 90]
-		  ];
-		  cvm.datasetOverride1 = [
-			{
-			  label: 'Override Series A',
-			  borderWidth: 1,
-			  type: 'bar'
-			},
-			{
-			  label: 'Override Series B',
-			  borderWidth: 3,
-			  hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-			  hoverBorderColor: 'rgba(255,99,132,1)',
-			  type: 'line'
-			}
-		  ];
-    });		
-
-    chartJS.controller('ChartjsBubbleController', function ($scope, $interval) {
-	  var cvm = this;				
-	  cvm.options = {
-		  scales: {
-			xAxes: [{
-			  display: false,
-			  ticks: {
-				max: 125,
-				min: -125,
-				stepSize: 10
-			  }
-			}],
-			yAxes: [{
-			  display: false,
-			  ticks: {
-				max: 125,
-				min: -125,
-				stepSize: 10
-			  }
-			}]
-		  }
-		};
-
-		createChart();
-		$interval(createChart, 2000);
-
-		function createChart () {
-		  cvm.series = [];
-		  cvm.data = [];
-		  for (var i = 0; i < 50; i++) {
-			cvm.series.push('Series ${i}');
-			cvm.data.push([{
-			  x: randomScalingFactor(),
-			  y: randomScalingFactor(),
-			  r: randomRadius()
-			}]);
-		  }
-		};
-
-		function randomScalingFactor () {
-		  return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
-		};
-
-		function randomRadius () {
-		  return Math.abs(randomScalingFactor()) / 4;
-		};
-
-    }); 
+    }); 	
 
 })();

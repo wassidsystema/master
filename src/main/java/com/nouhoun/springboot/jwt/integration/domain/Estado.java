@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 
 @Entity@Table(name = "ESTADO")
-public class Estado 
+public class Estado extends ModelJPA
 {
 
     /** The econtabil id for the Estado. */
@@ -117,5 +117,12 @@ public class Estado
     {
         this.abreviacao = abreviacao;
     }
+
+
+	@Override
+	public String toString() {
+		return "Estado [getId()=" + getId() + ", getNome()=" + getNome() + ", getAbreviacao()=" + getAbreviacao()
+				+ ", toString()=" + super.toString() + "]";
+	}
 
  }

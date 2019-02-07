@@ -78,6 +78,10 @@ public class Field
     @Column(name = "oculto")
     private Integer oculto;
     
+    @Column(name = "ORDERS")
+	private Integer order;
+	
+    
     /** The econtabil fields for the Tab. */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "field_id", referencedColumnName = "field_id", nullable = false, insertable = false, updatable = false)
@@ -321,6 +325,16 @@ public class Field
 
 	public void setOculto(Integer oculto) {
 		this.oculto = oculto;
+	}
+
+
+	public Integer getOrder() {
+		return order;
+	}
+
+
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
  }

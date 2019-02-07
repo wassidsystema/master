@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nouhoun.springboot.jwt.integration.domain.CategoriaMenu;
 import com.nouhoun.springboot.jwt.integration.domain.Dominio;
-import com.nouhoun.springboot.jwt.integration.domain.Entidade;
 import com.nouhoun.springboot.jwt.integration.domain.Field;
 import com.nouhoun.springboot.jwt.integration.domain.GroupMenu;
 import com.nouhoun.springboot.jwt.integration.domain.Help;
@@ -32,7 +31,6 @@ import com.nouhoun.springboot.jwt.integration.domain.Tab;
 import com.nouhoun.springboot.jwt.integration.domain.Validacao;
 import com.nouhoun.springboot.jwt.integration.service.CategoriaMenuService;
 import com.nouhoun.springboot.jwt.integration.service.DominioService;
-import com.nouhoun.springboot.jwt.integration.service.EntidadeService;
 import com.nouhoun.springboot.jwt.integration.service.FieldService;
 import com.nouhoun.springboot.jwt.integration.service.GroupMenuService;
 import com.nouhoun.springboot.jwt.integration.service.HelpService;
@@ -70,10 +68,6 @@ public class DicionarioController {
 	/** The tab Service. */
 	@Autowired
 	private TabService tabService;
-
-	/** The entidade Service. */
-	@Autowired
-	private EntidadeService entidadeService;
 
 	/** The field Service. */
 	@Autowired
@@ -449,66 +443,6 @@ public class DicionarioController {
 			throws JsonParseException, JsonMappingException, IOException {
 
 		return new ResponseEntity<Tab>(tabService.deleteTab(tab), HttpStatus.OK);
-	}
-
-//===================================### ENTIDADE ####======================================
-	/**
-	 * Refresh entidades.
-	 *
-	 * @param refreshInt the refresh int
-	 * @param retList    the ret list
-	 * @param retPaged   the ret paged
-	 * @return the entidade response
-	 */
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/entidade/refresh", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<List<Entidade>> refreshEntidadePaged(@RequestBody PaginationFilter requestString) {
-		return new ResponseEntity<List<Entidade>>(entidadeService.findEntidadeAll(requestString), HttpStatus.OK);
-	}
-
-	/**
-	 * Fetch entidade paged.
-	 *
-	 * @param request the request
-	 * @return the entidade response
-	 */
-	@RequestMapping(value = "/entidade/fetchPage", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<List<Entidade>> fetchEntidadePaged(@RequestBody PaginationFilter requestString) {
-		return new ResponseEntity<List<Entidade>>(entidadeService.findEntidadeAll(requestString), HttpStatus.OK);
-	}
-
-	/**
-	 * Insert entidade.
-	 *
-	 * @param request the request
-	 * @return the entidade response
-	 */
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/entidade/insert", method = RequestMethod.POST)
-	public ResponseEntity<Entidade> insertEntidade(@RequestBody String entidades, HttpServletRequest request)
-			throws JsonParseException, JsonMappingException, IOException {
-
-		ObjectMapper mapper = new ObjectMapper();
-		Entidade entidade = mapper.readValue(entidades, Entidade.class);
-		return new ResponseEntity<Entidade>(entidadeService.saveEntidade(entidade), HttpStatus.OK);
-	}
-
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/entidade/update", method = RequestMethod.POST)
-	public ResponseEntity<Entidade> updateEntidade(@RequestBody Entidade entidade, HttpServletRequest request)
-			throws JsonParseException, JsonMappingException, IOException {
-
-		return new ResponseEntity<Entidade>(entidadeService.updateEntidade(entidade), HttpStatus.OK);
-	}
-
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/entidade/delete", method = RequestMethod.POST)
-	public ResponseEntity<Entidade> deleteEntidade(@RequestBody Entidade entidade, HttpServletRequest request)
-			throws JsonParseException, JsonMappingException, IOException {
-
-		return new ResponseEntity<Entidade>(entidadeService.deleteEntidade(entidade), HttpStatus.OK);
 	}
 
 //===================================### FIELD ####======================================

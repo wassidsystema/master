@@ -2,11 +2,17 @@
 package com.nouhoun.springboot.jwt.integration.domain;
 
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -31,13 +37,16 @@ public class Help
     @Column(name = "TITULO")
     private String titulo;
 
-    /** The econtabil status for the Help. */
-    @Column(name = "STATUS")
-    private Integer status;
-
     /** The econtabil texto for the Help. */
     @Column(name = "TEXTO")
     private String texto;
+//    
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "HELP_ANEXOS",
+//            joinColumns = {@JoinColumn(name = "HELP_ID", referencedColumnName = "ID")},
+//            inverseJoinColumns = {@JoinColumn(name = "ANEXO_ID", referencedColumnName = "ID")})
+//    private List<Anexos> anexosList;
 
 
 
@@ -94,27 +103,6 @@ public class Help
 
     /**
     /**
-     * Gets the status.
-     *
-     * @return the status
-     */
-    public Integer getStatus()
-    {
-        return status;
-    }
-
-    /**
-     * Sets the status.
-     *
-* @param id the status to set
- */
-    public void setStatus(Integer status)
-    {
-        this.status = status;
-    }
-
-    /**
-    /**
      * Gets the texto.
      *
      * @return the texto
@@ -133,5 +121,17 @@ public class Help
     {
         this.texto = texto;
     }
+
+
+//	public List<Anexos> getAnexosList() {
+//		return anexosList;
+//	}
+//
+//
+//	public void setAnexosList(List<Anexos> anexosList) {
+//		this.anexosList = anexosList;
+//	}
+    
+    
 
  }

@@ -1,34 +1,30 @@
 (function () {
     'use strict';
-	var echartsCommon  = angular.module('wdApp.charts.echarts.controllers', []); 
-	
+	var echartsCommon  = angular.module('wdApp.charts.echarts.controllers', []);
+
 	echartsCommon.controller('EChartsController', ['$scope', function ($scope) {
-			// Build ECharts with Bar, Line, Pie, Scatter, Chord, Combo
-			var evm = this;				
-	
+			// Build ECharts with Bar, Line, Pie, Scatter, Chord
+			var evm = this;
+
 			evm.line3 = {};
 			evm.bar4 = {};
 			evm.pie1 = {};
 			evm.scatter2 = {};
 			evm.chord1 = {};
-			evm.combo = {};
-			evm.fdirect = {};	
-			evm.bgauge = {};			
-	
+
 			evm.line3.options = {
 				title : {
-					text: 'Sales',
+					text: '',
 				},
 				tooltip : {
 					trigger: 'axis'
 				},
 				legend: {
-					data:['Intention','Pre-order','Deal closed']
+					data:['Compras','Vendas','Estoque']
 				},
 				toolbox: {
 					show : true,
 					feature : {
-						dataView : {show: true, readOnly: false, title: "data",  lang:['Data View', 'close', 'refresh']},						
 						restore : {show: true, title: "restore"},
 						saveAsImage : {show: true, title: "save as image"}
 					}
@@ -38,7 +34,7 @@
 					{
 						type : 'category',
 						boundaryGap : false,
-						data : ['Mon.','Tue.','Wed.','Thu.','Fri.','Sat.','Sun.']
+						data : ['Out.','Nov.','Dez.','Jan.','Fev.','Abr.','Mai.']
 					}
 				],
 				yAxis : [
@@ -48,21 +44,21 @@
 				],
 				series : [
 					{
-						name:'Deal closed',
+						name:'Compras',
 						type:'line',
 						smooth:true,
 						itemStyle: {normal: {areaStyle: {type: 'default'}}},
 						data:[10, 12, 21, 54, 260, 830, 710]
 					},
 					{
-						name:'Pre-order',
+						name:'Vendas',
 						type:'line',
 						smooth:true,
 						itemStyle: {normal: {areaStyle: {type: 'default'}}},
 						data:[30, 182, 434, 791, 390, 30, 10]
 					},
 					{
-						name:'Intention',
+						name:'Estoque',
 						type:'line',
 						smooth:true,
 						itemStyle: {normal: {areaStyle: {type: 'default'}}},
@@ -70,11 +66,11 @@
 					}
 				]
 			};
-			
+
 			evm.bar4.options = {
 				tooltip : {
 					trigger: 'axis',
-					axisPointer : {            
+					axisPointer : {
 						type : 'shadow'
 					}
 				},
@@ -84,7 +80,6 @@
 				toolbox: {
 					show : true,
 					feature : {
-						dataView : {show: true, readOnly: false, title: "data",  lang:['Data View', 'close', 'refresh']},						
 						restore : {show: true, title: "restore"},
 						saveAsImage : {show: true, title: "save as image"}
 					}
@@ -139,10 +134,10 @@
 					}
 				]
 			};
-	
+
 			evm.pie1.options = {
 				title : {
-					text: 'Traffic Source',
+					text: 'Os 5 Produtos mais vendidos',
 					x:'center'
 				},
 				tooltip : {
@@ -152,12 +147,11 @@
 				legend: {
 					orient : 'vertical',
 					x : 'left',
-					data:['Direct','Email','Partner','Video Ads','Search']
+					data:['Produto 01','Produto 02','Produto 03','Produto 04','Produto 05']
 				},
 				toolbox: {
 					show : true,
 					feature : {
-						dataView : {show: true, readOnly: false, title: "data",  lang:['Data View', 'close', 'refresh']},						
 						restore : {show: true, title: "restore"},
 						saveAsImage : {show: true, title: "save as image"}
 					}
@@ -170,21 +164,21 @@
 						radius : '55%',
 						center: ['50%', '60%'],
 						data:[
-							{value:335, name:'Direct'},
-							{value:310, name:'Email'},
-							{value:234, name:'Partner'},
-							{value:135, name:'Video Ads'},
-							{value:1548, name:'Search'}
+							{value:335, name:'Produto 01'},
+							{value:310, name:'Produto 02'},
+							{value:234, name:'Produto 03'},
+							{value:135, name:'Produto 04'},
+							{value:1548, name:'Produto 05'}
 						]
 					}
 				]
 			};
-			
+
 			function random(){
 				var r = Math.round(Math.random() * 100);
 				return (r * (r % 2 == 0 ? 1 : -1));
 			}
-			
+
 			function randomDataArray() {
 				var d = [];
 				var len = 100;
@@ -196,8 +190,8 @@
 					]);
 				}
 				return d;
-			}  			
-	
+			}
+
 			evm.scatter2.options = {
 				tooltip : {
 					trigger: 'axis',
@@ -217,7 +211,6 @@
 				toolbox: {
 					show : true,
 					feature : {
-						dataView : {show: true, readOnly: false, title: "data",  lang:['Data View', 'close', 'refresh']},						
 						restore : {show: true, title: "restore"},
 						saveAsImage : {show: true, title: "save as image"}
 					}
@@ -255,7 +248,7 @@
 					}
 				]
 			};
-	
+
 			evm.chord1.options = {
 				title : {
 					text: 'Test Data',
@@ -313,67 +306,6 @@
 					}
 				]
 			};
-			
-			evm.combo.options = {
-				tooltip : {
-					trigger: 'axis'
-				},
-				toolbox: {
-					show : true,
-					feature : {
-						dataView : {show: true, readOnly: false, title: "data",  lang:['Data View', 'close', 'refresh']},
-						magicType: {show: true, type: ['line', 'bar'], title: { line : 'line', bar : 'bar'}},
-						restore : {show: true, title: "restore"},
-						saveAsImage : {show: true, title: "save as image"}
-					}
-				},
-				calculable : true,
-				legend: {
-					data:['Evaporation', 'Precipitation', 'Average Temperature']
-				},
-				xAxis : [
-					{
-						type : 'category',
-						data : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-					}
-				],
-				yAxis : [
-					{
-						type : 'value',
-						name : 'Water Volume',
-						axisLabel : {
-							formatter: '{value} ml'
-						}
-					},
-					{
-						type : 'value',
-						name : 'Temperature',
-						axisLabel : {
-							formatter: '{value} °C'
-						}
-					}
-				],
-				series : [
 
-					{
-						name:'Evaporation',
-						type:'bar',
-						data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-					},
-					{
-						name:'Precipitation',
-						type:'bar',
-						data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-					},
-					{
-						name:'Average Temperature',
-						type:'line',
-						yAxisIndex: 1,
-						data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-					}
-				]
-			};
-                   			
-//
-    }]);  
-})(); 
+    }]);
+})();

@@ -1,165 +1,160 @@
 (function() {
-	
-  angular.module('wdApp.apps.counties', []).controller('CountiesController', 
-  ['$scope', 'SysMgmtData', 'toastr', 'toastrConfig',
-	function($scope, SysMgmtData, toastr, toastrConfig) {
-		//why?
-		var cvm = this;	
+  angular.module('wdApp.apps.counties', []).controller('CountiesController',
+  ['$scope', 'SysMgmtData', 'toastr', 'toastrConfig','$rootScope',
+	function($scope, SysMgmtData, toastr, toastrConfig,$rootScope) {
+		var cvm = this;
+		var initLoad = true; //used to ensure not calling server multiple times
 		var fetch_url = WebDaptiveAppConfig.base_county_url +  WebDaptiveAppConfig.fetch_url;
 		var refresh_url =  WebDaptiveAppConfig.base_county_url +  WebDaptiveAppConfig.refresh_url;
 		var create_url =  WebDaptiveAppConfig.base_county_url +  WebDaptiveAppConfig.create_url;
-		var update_url =  WebDaptiveAppConfig.base_county_url +  WebDaptiveAppConfig.update_url;	
-		var delete_url =  WebDaptiveAppConfig.base_county_url +  WebDaptiveAppConfig.delete_url;		
+		var update_url =  WebDaptiveAppConfig.base_county_url +  WebDaptiveAppConfig.update_url;
+		var delete_url =  WebDaptiveAppConfig.base_county_url +  WebDaptiveAppConfig.delete_url;
 		cvm.isActive = false;
-		var skipPage = false;	//used to ensure not calling server multiple times
-		toastrConfig.closeButton = true;		
-		
+		toastrConfig.closeButton = true;
+
 		//form model data
 		cvm.county = {
 			id: '',
 			description: ''
 		};
-		
-		//pagination Options
-		var paginationOptions = {
-			pageNumber: 1,
-			pageSize: 20,
-		};		
-		
+
 		//grid column defs
 		var countyColumnDefs = [
-			{displayName: "County Id", field: "id", enableColumnMenu: false, enableSorting: false, maxWidth: 200},
-			{displayName: "County Description", field: "description", enableColumnMenu: false, enableSorting: false, cellTooltip: true}
-	
+			{headerName: "County Id", field: "id", width: 270},
+			{headerName: "County Description", field: "description", width: 450}
 		];
-		
- 		//grid options
+
+		//grid row select function
+		function rowSelectedFunc(event) {
+			cvm.county.id = event.node.data.id;
+			cvm.county.description = event.node.data.description;
+		};
+
+		//grid options
 		cvm.countyGridOptions = {
 			columnDefs: countyColumnDefs,
-			enableFullRowSelection: true,
-			enableRowHeaderSelection: false,
-			multiSelect: false,			
-			paginationPageSizes: [20],			
-			pagingPageSize: 20,
-			useExternalPagination: true,
-			enableColumnResizing: true,
-			onRegisterApi: function (gridApi) {
-				//why is this needed
-				$scope.gridApi = gridApi;
-				//grid row select function				
-				gridApi.selection.on.rowSelectionChanged($scope,function(row){
-					cvm.county.id = row.entity.id;
-					cvm.county.description = row.entity.description;
-					//console.log(row);
-				});	
-				gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-					//this events fires anytime page number is changed pay attention to the logic and api to figure out the why					
-					//console.log("np1: " + newPage + " skipPage " + skipPage);
-					if (!skipPage)
-					{		
-						paginationOptions.pageNumber = newPage;
-						paginationOptions.pageSize = pageSize;
-						processPostData(fetch_url, new qat.model.pagedInquiryRequest(newPage - 1, true), false);
-					}
-					else
-					{
-						skipPage = false;
-						//console.log("np2: " + newPage + " skipPage " + skipPage);						
-					}		
-				});
-			}			
+			rowSelection: 'single',
+			onRowSelected: rowSelectedFunc,
+			rowHeight: 30,
+			headerHeight: 30,
+			enableColResize: true
 		};
-		
+
+		//reusable paging datasource grid
+		function createNewDatasource(resIn) {
+			var countyDataSource = {
+				pageSize: 20, //using default paging of 20
+				getRows: function (params) {
+					if (initLoad){
+						//console.log("getRows() initLoad=true: " + resIn);
+						initLoad=false;
+						cvm.isActive = false;
+						var dataThisPage = resIn.counties;
+						cvm.gList =  dataThisPage;
+						var lastRow = (resIn) ? resIn.resultsSetInfo.totalRowsAvailable : 0;
+						params.successCallback(dataThisPage, lastRow);
+
+					}
+					else{
+						//console.log('asking for ' + params.startRow + ' to ' + params.endRow);
+						SysMgmtData.processPostPageData("/main/api/request", {url : WebDaptiveAppConfig.fetch_url, token : $rootScope.authToken , request : new qat.model.pagedInquiryRequest(  params.startRow/20, true)}, function(res){
+							var dataThisPage = res.counties;
+							cvm.gList =  dataThisPage;
+							var lastRow = res.resultsSetInfo.totalRowsAvailable;
+							params.successCallback(dataThisPage, lastRow);
+						});
+					}
+				}
+			};
+			cvm.countyGridOptions.api.setDatasource(countyDataSource);
+		};
+
 		//initial data load
-		processPostData(fetch_url, new qat.model.pagedInquiryRequest( 0, true), true);
-		
+		////debugger
+		processPostData("main/api/request/", {url : "county/api/fetchPage", token :$rootScope.authToken, request : new qat.model.pagedInquiryRequest()}, false);
+
 		//reusable data methods
 		//reusable processGetData (refresh,delete)
-		function processGetData(_url, _skip)
+		function processGetData(_url)
 		{
-			//console.log(_url);			
+			//console.log(_url);
+			cvm.countyGridOptions.api.showLoadingOverlay(true);
 			SysMgmtData.processGetPageData(_url,  function(res){
-				var dataThisPage = (res.counties) ?  res.counties : new Array();
-				cvm.gList =  dataThisPage;	
-				cvm.countyGridOptions.data = dataThisPage;	
-				cvm.isActive = false;					
-				cvm.countyGridOptions.totalItems = (res) ? res.resultsSetInfo.totalRowsAvailable : 0;
-				skipPage = _skip;				
-				//this events causes paginationChanged to be fired so a special switch is used to prevent server double call					
-				cvm.countyGridOptions.paginationCurrentPage = (res) ? res.resultsSetInfo.startPage + 1 : 0;	
-				//console.log(res.resultsSetInfo);	
-				skipPage =  false;					
-			});				
-		};	
+				if (res){
+					initLoad = true;
+					createNewDatasource(res); //send Data
+				}
+				else{
+					cvm.countyGridOptions.api.hideOverlay();
+				}
+
+			});
+		};
 
 		//reusable processGetData (insert, update, pagedFetch)
-		function processPostData(_url, _req, _skip)
+		function processPostData(_url, _req, _bLoading)
 		{
-			//console.log(_url);	
+			//console.log(_url);
+			if (_bLoading){
+				cvm.countyGridOptions.api.showLoadingOverlay(true);
+			}
 			SysMgmtData.processPostPageData(_url, _req, function(res){
-					//console.log("ppdcc");				
-					//console.log(res);				
-					var dataThisPage = (res.counties) ?  res.counties : new Array();
-					cvm.gList =  dataThisPage;	
-					cvm.countyGridOptions.data = dataThisPage;
-					cvm.isActive = false;	
-					cvm.countyGridOptions.totalItems = (res) ? res.resultsSetInfo.totalRowsAvailable : 0;	
-					skipPage = _skip;
-					//this events causes paginationChanged to be fired so a special switch is used to prevent server double call
-					cvm.countyGridOptions.paginationCurrentPage = (res) ? res.resultsSetInfo.startPage + 1 : 0;	
-					//console.log(res.resultsSetInfo);	
-					skipPage =  false;						
-			});			
+				if (res){
+					initLoad = true;
+					createNewDatasource(res); //send Data
+				}
+				else{
+					cvm.countyGridOptions.api.hideOverlay();
+				}
+			});
+		};
 
-		};	
-
-		
 		//refresh county function
 		cvm.refreshCounties = function(refreshCount) {
 			cvm.isActive = !cvm.isActive;
 			//clear form data
-			cvm.clearForm();		
+			cvm.clearForm();
 			var send_url = refresh_url + "?refreshInt=" + refreshCount + "&retList=true&retPaged=true";
-			processGetData(send_url, true);
-		};			
-		
+			processGetData(send_url);
+		};
+
 		//form methods
 		//reusable clear form logic
 		cvm.clearForm = function (){
 			//clear data
 			cvm.county.id = "";
 			cvm.county.description = "";
+			//clear grid selection
+			cvm.countyGridOptions.api.deselectAll();
 			//set form to pristine
-			cvm.form_county.$setPristine();	
-			//clear grid selection //why?
-			$scope.gridApi.selection.clearSelectedRows();
+			cvm.form_county.$setPristine();
 		};
-		
-		//reusable button form logic		
-		cvm.processButtons = function(_btnType){	
-			//console.log(_btnType);		
+
+		//reusable button form logic
+		cvm.processButtons = function(_btnType){
+			//console.log(_btnType);
 			if (cvm.form_county.$valid)
-			{	
+			{
 				switch (_btnType) {
-				//Add Button							
+				//Add Button
 				case 'A':
-					processPostData(create_url,  new qat.model.reqCounty( new qat.model.county(cvm.county.id, cvm.county.description),true, true), true);	
+					processPostData(create_url,  new qat.model.reqCounty( new qat.model.county(cvm.county.id, cvm.county.description),true, true), true);
 					break;
-				//Update Button						
+				//Update Button
 				case 'U':
-					processPostData(update_url,  new qat.model.reqCounty( new qat.model.county(cvm.county.id, cvm.county.description),true, true), true);	
+					processPostData(update_url,  new qat.model.reqCounty( new qat.model.county(cvm.county.id, cvm.county.description),true, true), true);
 					break;
-				//Delete Button	
+				//Delete Button
 				case 'D':
 					var send_url = delete_url + "?countyId=" + cvm.county.id + "&retList=true&retPaged=true";
-					processGetData(send_url, true);
-					break;	
-				//List Button	
+					processGetData(send_url);
+					break;
+				//List Button
 				case 'L':
 					processPostData(fetch_url, new qat.model.pagedInquiryRequest( 0, true), true);
-					break;					
-				default: 
-					console.log('Invalid button type: ' + _btnType);					
+					break;
+				default:
+					console.log('Invalid button type: ' + _btnType);
 				};
 				//clear the form
 				cvm.clearForm();
@@ -170,12 +165,12 @@
 					//clear the form
 					cvm.clearForm();
 				}
-				else{	
+				else{
 					toastr.error('County form error, please correct and resubmit.', 'Error');
-				}	
-			}		
+				}
+			}
 		};
-		
+
     }
   ]);
 }).call(this);

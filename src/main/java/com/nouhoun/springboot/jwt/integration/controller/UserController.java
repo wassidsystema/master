@@ -24,8 +24,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,17 +39,13 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nouhoun.springboot.jwt.api.APIResponse;
-import com.nouhoun.springboot.jwt.integration.domain.InfoUser;
-import com.nouhoun.springboot.jwt.integration.domain.Jogo;
-import com.nouhoun.springboot.jwt.integration.domain.JogoPorData;
-import com.nouhoun.springboot.jwt.integration.domain.JogoPorData.StatusJogoPorData;
-import com.nouhoun.springboot.jwt.integration.domain.NotasGols;
 import com.nouhoun.springboot.jwt.integration.domain.UserDTO;
+import com.nouhoun.springboot.jwt.integration.domain.DTO.entidade.UserDTO2;
 import com.nouhoun.springboot.jwt.integration.domain.security.Authority;
 import com.nouhoun.springboot.jwt.integration.domain.security.User;
-import com.nouhoun.springboot.jwt.integration.service.JogoService;
 import com.nouhoun.springboot.jwt.integration.service.UserService;
 
+@Controller
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -55,9 +53,6 @@ public class UserController {
 	private static Logger LOG = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	public JogoService jogoService;
 
 	// @Autowired
 	// private JogoService jogoService;
@@ -109,86 +104,16 @@ public class UserController {
         return APIResponse.toOkResponse(authResp);
     }
 
-//	@CrossOrigin(origins = "*")
-//	@RequestMapping(value = "update", method = RequestMethod.POST)
-//	public @ResponseBody APIResponse updateMensagem(@RequestBody UserDTO userDTO,
-//            HttpServletRequest request) throws NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeySpecException {
-//		ModelAndView modelAndView = new ModelAndView();
-//		List<String> erros = new ArrayList<String>();
-//		User userExists = userService.findUserByEmail(userDTO.getEmail());
-//		if (userExists == null) {
-//			erros.add("There is already a user registered with the email provided");
-//		}
-//		
-//		User user23= userService.updateUser(new User(userDTO), request);
-//		modelAndView.addObject("successMessage", "User has been registered successfully");
-//		modelAndView.addObject("user", userDTO);
-//		modelAndView.setViewName("registration");
-//
-//		HashMap<String, Object> authResp = new HashMap<String, Object>();
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		InfoUser info = getInfoUser(user23); 
-//		user23.setQntJogos(info.getQntJogos());
-//		user23.setQntGols(info.getQntGols());
-//		user23.setMediaNota(info.getMediaNota());
-//		user23.setMediaGols(info.getMediaGols());
-//		Object token = auth.getCredentials();
-//		authResp.put("token", token);
-//		authResp.put("user", user23);
-//		authResp.put("Error", erros);
-//
-//		return APIResponse.toOkResponse(authResp);
-//	}
-
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/findUserById", method = RequestMethod.POST)
-	public User getUsers(@RequestBody Integer id, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/findUserByEmail", method = RequestMethod.POST, headers = {"content-type=application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<User> findUserByEmail(@RequestBody UserDTO2 email)
 			throws JsonParseException, JsonMappingException, IOException {
-		User user = userService.findUserById(id);
-		
-		InfoUser info = getInfoUser(user); 
-		user.setQntJogos(info.getQntJogos());
-		user.setQntGols(info.getQntGols());
-		user.setMediaNota(info.getMediaNota());
-		user.setMediaGols(info.getMediaGols());
-
-		return user;
-	}
-
-	private InfoUser getInfoUser(User user) {
-		List<Jogo> quadra = jogoService.findJogoByUser(user.getId().intValue());
-		Integer countJogos = 0;
-		Integer countGols = 0;
-		Integer countMedia = 0;
-		Double media = new Double(0);
-		for (Jogo jogo : quadra) {
-			if(jogo!= null && !jogo.getJogoPorData().isEmpty()) {
-				countJogos++;
-				for (JogoPorData jogoPorData : jogo.getJogoPorData()) {
-					if(jogoPorData!= null && !jogoPorData.getNotasGols().isEmpty() && StatusJogoPorData.JAJOGADO.equals(jogoPorData.getStatus())) {
-						for (NotasGols notasGols : jogoPorData.getNotasGols()) {
-							if(notasGols.getUserId().intValue() == user.getId()) {
-								countMedia++;
-								media = media + notasGols.getNota();
-								countGols = countGols + notasGols.getQntGols();
-							}
-						}
-					}
-				}
-			}
-			
-		}
-		//InfoUser(Integer qntJogos, Integer qntGols, Double mediaNota, Double mediaGols)
-		return new InfoUser(countJogos,countGols,(media/countMedia),new Double(countGols/countJogos));
-	}
-
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/findUserByEmail", method = RequestMethod.POST)
-	public User findUserByEmail(@RequestBody String email, HttpServletRequest request, HttpServletResponse response)
-			throws JsonParseException, JsonMappingException, IOException {
-		User user =  userService.findUserByEmail(email);
+	//	ObjectMapper mapper = new ObjectMapper();
+	//	UserDTO users = mapper.readValue(email, UserDTO.class);
+		User user =  userService.findUserByEmail(email.getUsername());
 	//	user.setInfoUser(getInfoUser(user));
-		return user;
+		HttpStatus status = HttpStatus.CREATED;
+		return new ResponseEntity(user, status);
 	}
 
 	@CrossOrigin(origins = "*")

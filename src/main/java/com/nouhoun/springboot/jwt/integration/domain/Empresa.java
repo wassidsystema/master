@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -21,6 +19,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nouhoun.springboot.jwt.integration.domain.entidade.Endereco;
 
 @Entity
 @Table(name = "empresa")
@@ -55,36 +54,12 @@ public class Empresa{
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<AvaliacaoOptions> avaliacaoOptions;
 
-//	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-//    @JoinColumn(name = "endereco_id", insertable = false, updatable = false, nullable = false)
-//    private Endereco endereco;
-	
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(name = "endereco_id", unique = false, nullable = false, updatable = false)
     private Endereco endereco;
 
     @Column(name = "endereco_id", insertable = false, updatable = false, nullable = false)
     private Integer enderecoId;
-    
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "empresa_quadra", joinColumns = @JoinColumn(name="empresa_id"), inverseJoinColumns = @JoinColumn(name = "quadra_id"))
-	private List<Quadra> quadras;
-	
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@JoinTable(name = "notificacoes", joinColumns = @JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id"))
-//	private List<Notificacoes> notificacoes;
-	
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@JoinColumn(name="para_empresa_id", referencedColumnName="empresa_id", nullable = false, insertable = false, updatable = false)
-//	private List<Notificacoes> notificacoes;
-
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "horarioFunc", joinColumns = @JoinColumn(name="parent_id"), inverseJoinColumns = @JoinColumn(name = "horarios_id"))
-//	private Set<Horarios> horarioFuncionamento;
-	
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "status", joinColumns = @JoinColumn(name = "empresa_id"), inverseJoinColumns = @JoinColumn(name = "horario_id"))
-//	private Set<DoisValores> status;
 
 	public int getId() {
 		return id;
@@ -142,16 +117,9 @@ public class Empresa{
 		this.enderecoId = enderecoId;
 	}
 
-	public List<Quadra> getQuadras() {
-		return quadras;
-	}
-
-	public void setQuadras(List<Quadra> quadras) {
-		this.quadras = quadras;
-	}
 
 	public Empresa(int id, String nome, String nomeResponsavel, String email, String telefone, Endereco endereco,
-			Integer enderecoId, List<Quadra> quadras, List<Notificacoes> notificacoes) {
+			Integer enderecoId, List<Notificacoes> notificacoes) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -160,7 +128,6 @@ public class Empresa{
 		this.telefone = telefone;
 		this.endereco = endereco;
 		this.enderecoId = enderecoId;
-		this.quadras = quadras;
 	}
 
 	public Empresa() {
@@ -182,32 +149,5 @@ public class Empresa{
 	public void setAvaliacaoOptions(List<AvaliacaoOptions> avaliacaoOptions) {
 		this.avaliacaoOptions = avaliacaoOptions;
 	}
-	
-	
-	
-//	public Set<Horarios> getHorarioAberto() {
-//		return horarioAberto;
-//	}
-//
-//	public void setHorarioAberto(Set<Horarios> horarioAberto) {
-//		this.horarioAberto = horarioAberto;
-//	}
-//
-//	public Set<Horarios> getHorarioFuncionamento() {
-//		return horarioFuncionamento;
-//	}
-//
-//	public void setHorarioFuncionamento(Set<Horarios> horarioFuncionamento) {
-//		this.horarioFuncionamento = horarioFuncionamento;
-//	}
-//
-//	public Set<DoisValores> getStatus() {
-//		return status;
-//	}
-//
-//	public void setStatus(Set<DoisValores> status) {
-//		this.status = status;
-//	}
 
-	
 }

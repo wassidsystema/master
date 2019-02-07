@@ -16,7 +16,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.google.common.collect.ImmutableList;
 import com.nouhoun.springboot.jwt.integration.config.service.JwtUserDetailsService;
 
 @Configuration
@@ -59,12 +66,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     
+    
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(ImmutableList.of("/**"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("*", configuration);
+        return source;
+    }
+    
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/*").allowedOrigins("http://localhost:3000");
+            }
+        };
+    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
             // we don't need CSRF because our token is invulnerable
-            .csrf().disable()
+       //     .csrf().disable()
+            
 
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
@@ -77,17 +107,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/h2-console/**/**").permitAll()
             .antMatchers("/user/insert").permitAll()
             .antMatchers("/auth/**").permitAll()
+            .antMatchers("/site/api/site/fetchPage").permitAll()
+            .antMatchers("/site/api/contato/**").permitAll()
             .antMatchers("/avaliacao/**").permitAll()
             .antMatchers("/jogo/findJogoByUserAndStatus").permitAll()
+            .antMatchers("/entidade/api/findEntidadeById").permitAll()
             .antMatchers("/empresa/fetchAllEmpresa").permitAll()
             .antMatchers("/user/findUserByEmail").permitAll()
- 	        .antMatchers("/resources/**","/resources/**/**","/resources/**/**/**", "/static/**", "/css/**","/css/**/**","/css/**/**/**", "/js/**", "/images/**"
- 	    		   , "/thirdparty/**", "/scripts/**", "/styles/**", "/views/**", "/fonts/**", "/scripts/**/**", "/templates/**/**", "/templates/**","/i18n/**").permitAll()
+            .antMatchers("/entidade/api/entidade/insert").permitAll()
+ 	        .antMatchers("/resources/**","/resources/**/**","/resources/**/**/**", "/static/**", "/css/**","/css/**/**","/css/**/**/**", "/js/**", "/images/**","/views/**/**/**","/thirdparty/**/**/**/**/**","/thirdparty/angular-datatables-master/vendor/font-awesome-animation/**/**"
+ 	    		   , "/thirdparty/**", "/img/**", "/img/**/**","/ajax/**/","/plugins/**/", "/dist/**/","/views/template-assets/plugins/**" ,"/thirdparty/angular-datatables-master/vendor/font-awesome-animation/**", "/thirdparty/**/**", "/scripts/**", "/styles/**", "/views/**", "/fonts/**", "/scripts/**/**", "/templates/**/**", "/templates/**","/i18n/**"
+ 	    		   ,"/views/template-assets/plugins/**/**","/views/template-assets/plugins/Lightbox/dist/**/**","/views/template-assets/plugins/Icons/et-line-font/**","/views/template-assets/plugins/animate.css/**").permitAll()
             .anyRequest().authenticated();
 
        httpSecurity
             .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
+       httpSecurity.cors();
         // disable page caching
         httpSecurity
             .headers()
@@ -104,7 +139,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 HttpMethod.POST,
                 authenticationPath
             ).antMatchers("/resources/**","/resources/**/**","/resources/**/**/**", "/static/**", "/css/**","/css/**/**","/css/**/**/**", "/js/**", "/images/**"
- 	    		   , "/thirdparty/**", "/scripts/**", "/styles/**", "/views/**", "/fonts/**", "/scripts/**/**", "/templates/**/**", "/templates/**","/i18n/**")
+ 	    		   , "/thirdparty/**","/ts/**", "/scripts/**", "/styles/**", "/views/**", "/views/**/**", "/views/ajax/**", "/fonts/**", "/scripts/**/**", "/templates/**/**", "/templates/**","/i18n/**")
  	
 
             // allow anonymous resource requests
@@ -117,7 +152,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/favicon.ico",
                 "/**/*.html",
                 "/**/*.css",
-                "/**/*.js"
+                "/**/*.js",
+                "/**/*.ts"
             )
 
             // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
