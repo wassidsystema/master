@@ -2,15 +2,7 @@ package com.nouhoun.springboot.jwt.integration.controller;
 
 import java.util.GregorianCalendar;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.nouhoun.springboot.jwt.integration.domain.Jogo.Dias;
-import com.nouhoun.springboot.jwt.integration.repository.UserJogoDataRepository;
-import com.nouhoun.springboot.jwt.integration.service.JogoService;
-import com.nouhoun.springboot.jwt.integration.service.JogoUserService;
-import com.nouhoun.springboot.jwt.integration.service.NotificacoesService;
-import com.nouhoun.springboot.jwt.integration.service.QuadraService;
-import com.nouhoun.springboot.jwt.integration.service.UserService;
 
 public class FunctionsUtius {
 	

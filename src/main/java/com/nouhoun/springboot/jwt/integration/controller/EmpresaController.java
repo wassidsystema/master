@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.nouhoun.springboot.jwt.integration.domain.UserDTO;
-import com.nouhoun.springboot.jwt.integration.service.AvaliacaoService;
 import com.nouhoun.springboot.jwt.integration.service.EmpresaService;
 
 @Controller
@@ -35,10 +34,6 @@ public class EmpresaController {
 	@Autowired
 	private EmpresaService empresaService;
 
-
-    
-    @Autowired
-    private AvaliacaoService avaliacaoService;
 	
 //	@CrossOrigin(origins = "*")
 //	@RequestMapping(value = "/empresa/insert", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
