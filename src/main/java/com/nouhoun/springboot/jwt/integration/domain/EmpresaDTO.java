@@ -11,8 +11,6 @@ public class EmpresaDTO extends ModelDTO {
 	private String telefone;
 	private Endereco endereco;
 	private Integer enderecoId;
-	private List<Quadra> quadras;
-	private List<Notificacoes> notificacoes;
 
 	public int getId() {
 		return id;
@@ -56,25 +54,13 @@ public class EmpresaDTO extends ModelDTO {
 	public void setEnderecoId(Integer enderecoId) {
 		this.enderecoId = enderecoId;
 	}
-	public List<Quadra> getQuadras() {
-		return quadras;
-	}
-	public void setQuadras(List<Quadra> quadras) {
-		this.quadras = quadras;
-	}
-	public List<Notificacoes> getNotificacoes() {
-		return notificacoes;
-	}
-	public void setNotificacoes(List<Notificacoes> notificacoes) {
-		this.notificacoes = notificacoes;
-	}
-	
 	@Override
 	public String toString() {
 		return "EmpresaDTO [getId()=" + getId() + ", getNome()=" + getNome() + ", getNomeResponsavel()="
 				+ getNomeResponsavel() + ", getEmail()=" + getEmail() + ", getTelefone()=" + getTelefone()
-				+ ", getEndereco()=" + getEndereco() + ", getEnderecoId()=" + getEnderecoId() + ", getQuadras()="
-				+ getQuadras() + ", getNotificacoes()=" + getNotificacoes() + ", toString()=" + super.toString() + "]";
+				+ ", getEndereco()=" + getEndereco() + ", getEnderecoId()=" + getEnderecoId() + ", toString()="
+				+ super.toString() + "]";
 	}
+	
 
 }

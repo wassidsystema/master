@@ -30,7 +30,6 @@ public class UserDTO {
     private Date updatedAt;
     private Boolean enabled;
     private String encryptedPassword;
-    private List<Notificacoes> notificacoes;
     private Boolean receberNotificacoes;
     private Boolean isGoleiro;
     private Boolean isSoAdmANoGols;
@@ -39,14 +38,6 @@ public class UserDTO {
 	private Endereco endereco; 
 	private String telefone1;
 	private String telefone;
-
-    public List<Notificacoes> getNotificacoes() {
-		return notificacoes;
-	}
-
-	public void setNotificacoes(List<Notificacoes> notificacoes) {
-		this.notificacoes = notificacoes;
-	}
 
 	public Boolean getReceberNotificacoes() {
 		return receberNotificacoes;

@@ -1,12 +1,11 @@
 package com.nouhoun.springboot.jwt.integration.service;
 
-import com.nouhoun.springboot.jwt.integration.domain.Avaliacao;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.TransactionRequiredException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;

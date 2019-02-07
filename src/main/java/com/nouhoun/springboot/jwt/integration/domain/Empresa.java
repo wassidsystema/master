@@ -1,7 +1,5 @@
 package com.nouhoun.springboot.jwt.integration.domain;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -18,7 +15,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nouhoun.springboot.jwt.integration.domain.entidade.Endereco;
 
 @Entity
@@ -44,15 +40,15 @@ public class Empresa{
 	@NotEmpty(message = "*Please provide your last name")
 	private String telefone;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="empresa_id", referencedColumnName="empresa_id", nullable = false, insertable = false, updatable = false)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private List<Avaliacao> avaliacao;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="empresa_id", referencedColumnName="empresa_id", nullable = false, insertable = false, updatable = false)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private List<AvaliacaoOptions> avaliacaoOptions;
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinColumn(name="empresa_id", referencedColumnName="empresa_id", nullable = false, insertable = false, updatable = false)
+//	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//	private List<Avaliacao> avaliacao;
+//	
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinColumn(name="empresa_id", referencedColumnName="empresa_id", nullable = false, insertable = false, updatable = false)
+//	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//	private List<AvaliacaoOptions> avaliacaoOptions;
 
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(name = "endereco_id", unique = false, nullable = false, updatable = false)
@@ -119,7 +115,7 @@ public class Empresa{
 
 
 	public Empresa(int id, String nome, String nomeResponsavel, String email, String telefone, Endereco endereco,
-			Integer enderecoId, List<Notificacoes> notificacoes) {
+			Integer enderecoId) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -132,22 +128,6 @@ public class Empresa{
 
 	public Empresa() {
 		super();
-	}
-
-	public List<Avaliacao> getAvaliacao() {
-		return avaliacao;
-	}
-
-	public void setAvaliacao(List<Avaliacao> avaliacao) {
-		this.avaliacao = avaliacao;
-	}
-
-	public List<AvaliacaoOptions> getAvaliacaoOptions() {
-		return avaliacaoOptions;
-	}
-
-	public void setAvaliacaoOptions(List<AvaliacaoOptions> avaliacaoOptions) {
-		this.avaliacaoOptions = avaliacaoOptions;
 	}
 
 }

@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import com.nouhoun.springboot.jwt.integration.domain.ChatMessage;
-
 /**
  * Created by rajeevkumarsingh on 25/07/17.
  */
@@ -49,11 +47,11 @@ public class WebSocketEventListener {
 		if (username != null) {
 			logger.info("User Disconnected : " + username);
 
-			ChatMessage chatMessage = new ChatMessage();
-			chatMessage.setType(ChatMessage.MessageType.LEAVE);
-			chatMessage.setSender(username);
+//			ChatMessage chatMessage = new ChatMessage();
+//			chatMessage.setType(ChatMessage.MessageType.LEAVE);
+//			chatMessage.setSender(username);
 
-			messagingTemplate.convertAndSend("/topic/public", chatMessage);
+		//	messagingTemplate.convertAndSend("/topic/public", chatMessage);
 		}
 	}
 }
