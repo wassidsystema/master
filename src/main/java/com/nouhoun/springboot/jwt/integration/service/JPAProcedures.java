@@ -3,11 +3,6 @@
 
 import java.util.List;
 
-import com.nouhoun.springboot.jwt.integration.controller.PaginationFilter;
-import com.nouhoun.springboot.jwt.integration.domain.Help;
-
-
-
 /**
 *
 * @author 211026298
@@ -18,5 +13,9 @@ public interface JPAProcedures {
    public void findDiscount(int numOfSeats, int discPercentage);
    
    public String insertTestValues();
+   public Object[] fetchPage(String sql) ;
+   public String insert(String sql) ;
+   public String update(String sql) ;
+   public String delete(String sql) ;
    public String insertTestPart2Values() ;
 }

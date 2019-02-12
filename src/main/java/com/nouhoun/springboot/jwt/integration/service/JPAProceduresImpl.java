@@ -1,5 +1,8 @@
 package com.nouhoun.springboot.jwt.integration.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -62,7 +65,7 @@ public class JPAProceduresImpl implements JPAProcedures {
             return "Unsuccessful";
         }
     }
-
+    
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public String insertTestPart2Values() {
@@ -74,6 +77,49 @@ public class JPAProceduresImpl implements JPAProcedures {
             insertWorkouts();
             insertWorkoutItems();
             insertRoutineItem();
+            return "Successful";
+        } catch (TransactionRequiredException e) {
+            return "Unsuccessful";
+        }
+    }
+    
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public Object[] fetchPage(String sql) {
+        try {
+        	return fetchPageCrud(sql);
+        } catch (TransactionRequiredException e) {
+            return null;
+        }
+    }
+    
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public String insert(String sql) {
+        try {
+        	insertCrud(sql);
+            return "Successful";
+        } catch (TransactionRequiredException e) {
+            return "Unsuccessful";
+        }
+    }
+    
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public String update(String sql) {
+        try {
+        	updateCrud(sql);
+            return "Successful";
+        } catch (TransactionRequiredException e) {
+            return "Unsuccessful";
+        }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    public String delete(String sql) {
+        try {
+            deleteCrud(sql);
             return "Successful";
         } catch (TransactionRequiredException e) {
             return "Unsuccessful";
@@ -233,6 +279,35 @@ public class JPAProceduresImpl implements JPAProcedures {
         query = em.createNativeQuery("BEGIN bodystatgoal_management.p_insertbodystatgoal( 6004, 70.0, 3, 3004 ); END;");
         query.executeUpdate();
         query = em.createNativeQuery("BEGIN bodystatgoal_management.p_insertbodystatgoal( 6005, 90.0, 4, 3005 ); END;");
+        query.executeUpdate();
+    }
+    
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    private Object[] fetchPageCrud(String sql) {
+    	
+    	Query q = em.createNativeQuery(sql);
+    //	q.setParameter("id", 1);
+    	Object[] author = (Object[]) q.getSingleResult();
+    	 
+    	System.out.println("Author "
+    	        + author[0]
+    	        + " "
+    	+ author[1]);
+        return author;
+    }
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    private void insertCrud(String sql) {
+        Query query = em.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    private void updateCrud(String sql) {
+        Query query = em.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    private void deleteCrud(String sql) {
+        Query query = em.createNativeQuery(sql);
         query.executeUpdate();
     }
 

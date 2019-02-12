@@ -1,7 +1,9 @@
 package com.nouhoun.springboot.jwt.integration.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nouhoun.springboot.jwt.integration.domain.Search;
 
 /**
  * Created by Y.Kamesh on 8/2/2015.
@@ -10,6 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class PaginationFilter {
     public static final String API_RESPONSE = "apiResponse";
     Object result;
+    Integer tabela;
+    String sql;
+    Search search;
     String time;
     long code;
 
@@ -76,4 +81,30 @@ public class PaginationFilter {
         response.setCode(code);
         return response;
     }
+
+	public Integer getTabela() {
+		return tabela;
+	}
+
+	public void setTabela(Integer tabela) {
+		this.tabela = tabela;
+	}
+
+	public String getSql() {
+		return sql;
+	}
+
+	public void setSql(String sql) {
+		this.sql = sql;
+	}
+
+	public Search getSearch() {
+		return search;
+	}
+
+	public void setSearch(Search search) {
+		this.search = search;
+	}
+    
+    
 }

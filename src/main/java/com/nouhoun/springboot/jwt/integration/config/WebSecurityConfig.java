@@ -84,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/*").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/*").allowedOrigins("http://localhost:4000");
             }
         };
     }
@@ -116,7 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/user/findUserByEmail").permitAll()
             .antMatchers("/entidade/api/entidade/insert").permitAll()
  	        .antMatchers("/resources/**","/resources/**/**","/resources/**/**/**", "/static/**", "/css/**","/css/**/**","/css/**/**/**", "/js/**", "/images/**","/views/**/**/**","/thirdparty/**/**/**/**/**","/thirdparty/angular-datatables-master/vendor/font-awesome-animation/**/**"
- 	    		   , "/thirdparty/**", "/img/**", "/img/**/**","/ajax/**/","/plugins/**/", "/dist/**/","/views/template-assets/plugins/**" ,"/thirdparty/angular-datatables-master/vendor/font-awesome-animation/**", "/thirdparty/**/**", "/scripts/**", "/styles/**", "/views/**", "/fonts/**", "/scripts/**/**", "/templates/**/**", "/templates/**","/i18n/**"
+ 	    		   , "/thirdparty/**", "/img/**", "/img/**/**","/ajax/**/","/plugins/**/", "/dist/**/","/views/template-assets/plugins/**" ,"/thirdparty/angular-datatables-master/vendor/font-awesome-animation/**", "/thirdparty/**/**", "/scripts/**", "/styles/**", "/views/**", "/fonts/**","/src/**","/src/app/**","/src/app/**/**", "/scripts/**/**", "/templates/**/**", "/templates/**","/i18n/**"
  	    		   ,"/views/template-assets/plugins/**/**","/views/template-assets/plugins/Lightbox/dist/**/**","/views/template-assets/plugins/Icons/et-line-font/**","/views/template-assets/plugins/animate.css/**").permitAll()
             .anyRequest().authenticated();
 
