@@ -10,5 +10,5 @@ package com.nouhoun.springboot.jwt.integration.controller;
 public abstract class BaseController {
     protected static final String JSON_API_CONTENT_HEADER = "Content-type=application/json";
 
-
+}
 
