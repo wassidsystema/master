@@ -54,10 +54,10 @@ public class CrudController {
 	 */
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/crud/insert", method = RequestMethod.POST,headers = {"content-type=application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> insertGroupMenu(@RequestBody String groupmenus, HttpServletRequest request)
+	public ResponseEntity<String> insertGroupMenu(@RequestBody CrudRequest req, HttpServletRequest request)
 			throws JsonParseException, JsonMappingException, IOException {
 
-		return new ResponseEntity<String>(jpaProcedures.insert(DicionarioHelper.insert()), HttpStatus.OK);
+		return new ResponseEntity<String>(jpaProcedures.insert(DicionarioHelper.insert(req)), HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*")

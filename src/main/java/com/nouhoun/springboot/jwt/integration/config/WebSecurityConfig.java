@@ -81,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/jogo/findJogoByUserAndStatus").permitAll()
             .antMatchers("/empresa/fetchAllEmpresa").permitAll()
             .antMatchers("/user/findUserByEmail").permitAll()
- 	        .antMatchers("/resources/**","/resources/**/**","/resources/**/**/**", "/static/**", "/css/**","/css/**/**","/css/**/**/**", "/js/**", "/images/**"
+ 	        .antMatchers("/resources/**","/resources/**/**","/resources/**/**/**", "/static/**", "/css/**","/css/**/**","/css/**/**/**", "/js/**", "/images/**","/img/**","/img/**/**"
  	    		   , "/thirdparty/**", "/scripts/**", "/styles/**", "/views/**", "/fonts/**", "/scripts/**/**", "/templates/**/**", "/templates/**","/i18n/**").permitAll()
             .anyRequest().authenticated();
 
