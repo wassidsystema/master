@@ -1,0 +1,98 @@
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <label for="exampleInputPassword1">CEP</label>
+            <div class="input-group">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="cep" ng-model="enderecos[0].cep" ui-mask="99999-999" ui-mask-placeholder ui-mask-placeholder-char="_">
+                </div>
+                <span class="input-group-btn">
+
+             <button class="btn btn-default" type="button" ng-click="buscaRCep(enderecos[0].cep)"><i class="glyphicon glyphicon-search"> </i></button>
+         </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Logradouro</label>
+                <input type="text" class="form-control col-sm-8" name="logradouro" ng-model="enderecos[0].logradouro" placeholder="Logradouro">
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Numero</label>
+                <input type="text" class="form-control col-sm-4" name="numero" ng-model="enderecos[0].numero" placeholder="Numero">
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Lat.</label>
+                <input type="text" class="form-control col-sm-4" name="latitude" ng-model="enderecos[0].latitude" placeholder="Latitude">
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Lon.</label>
+                <input type="text" class="form-control col-sm-4" name="longitude" ng-model="enderecos[0].longitude" placeholder="Longitude">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label for="exampleInputPassword1">Complemento</label>
+            <input type="text" class="form-control col-sm-8" name="complemento" ng-model="enderecos[0].complemento" placeholder="Complemento">
+        </div>
+        <div class="col-sm-2">
+            <label for="exampleInputPassword1">Bairro</label>
+            <input type="text" class="form-control col-sm-4" name="bairro" ng-model="enderecos[0].bairro" placeholder="Bairro">
+        </div>
+        <div class="col-sm-2 ">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Estado</label>
+                <div class="row">
+                    <ui-select ng-model="enderecos[0].estado" theme="bootstrap" on-select="countrySelected($item, $model)" style="margin-left:10px">
+                        <ui-select-match placeholder="...">{{$select.selected.abreviacao}}</ui-select-match>
+                        <ui-select-choices repeat="item in estados | filter: $select.search">
+                            <div ng-bind-html="item.abreviacao | highlight: $select.search"></div>
+                            <small ng-bind-html="item.nome | highlight: $select.search"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 ">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Municipio</label>
+                <div class="row">
+                    <ui-select ng-model="enderecos[0].cidade" theme="bootstrap" style="margin-left:10px">
+                        <ui-select-match placeholder="...">{{$select.selected.descricao}}</ui-select-match>
+                        <ui-select-choices repeat="item in cidades | filter: $select.search">
+                            <div ng-bind-html="item.nome | highlight: $select.search"></div>
+                            <small ng-bind-html="item.estado.abreviacao | highlight: $select.search"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label for="exampleInputPassword1">Codigo IBGE</label>
+            <input type="text" class="form-control col-sm-4" name="ibge" ng-model="enderecos[0].codIbge" placeholder="Codigo IBGE">
+        </div>
+        <div class="col-sm-2 ">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Pais</label>
+                <div class="row">
+                    <ui-select ng-model="enderecos[0].pais" theme="bootstrap" style="margin-left:10px">
+                        <ui-select-match placeholder="...">{{$select.selected.descricao}}</ui-select-match>
+                        <ui-select-choices repeat="item in pais | filter: $select.search">
+                            <div ng-bind-html="item.descricao | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

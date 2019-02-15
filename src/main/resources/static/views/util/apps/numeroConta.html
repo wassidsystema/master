@@ -1,0 +1,68 @@
+<div class="col-sm-12">
+    <div ng-repeat="conta in agencia.numeroConta">
+    <div class="panel panel-default" style="background:#EEEEEE">
+        <div class="panel-heading" >
+        Conta Corrente
+        </div>
+        <div class="panel-body sidebar-nav">
+            <div class="col-sm-10"  style="background: #DDDDDD">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Descrição</label>
+                        <input type="text"  ng-model="conta.descricao" name="nome" class="form-control" placeholder="Descrição">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-4">
+                        <label for="exampleInputPassword1">Tipo Conta</label>
+                        <div class="row">
+                            <ui-select ng-model="conta.tipoConta" theme="bootstrap">
+                                <ui-select-match placeholder="Escolha o Tipo de documento ...">{{$select.selected.descricao}}</ui-select-match>
+                                <ui-select-choices repeat="item in tipoConta | filter: $select.search">
+                                    <div ng-bind-html="item.descricao | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Saldo</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" class="form-control cota-socio" ng-model="conta.saldo" name="desconto" placeholder="R$0,00" aria-label="Amount (to the nearest dollar)">
+                            <span class="input-group-addon">,00</span>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div ng-show="conta.tipoConta.value == 2" ng-hide="conta.tipoConta.value != 2">
+                        <div class="row col-sm-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Nº Conta</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">Nº</span>
+                                <input type="text" class="form-control cota-socio" ng-model="conta.numeroConta" name="desconto" placeholder="R$0,00" aria-label="Amount (to the nearest dollar)">
+                                
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Observação</label>
+                        <textarea class="form-control" rows="5" ng-model="conta.observacao" id="Observacao"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2" style="margin-top:15%;background:#EEEEEE">
+                <button type="button" class="btn btn-default addButton-socios"><i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-default removeButton-socios"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+

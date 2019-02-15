@@ -1,0 +1,133 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+<!-- ------------------------------------- -->
+<!-- ------------------------------------- -->
+
+<!-- -------------------  Email Empresa ----------------- -->
+<div class="row">
+    <div class="col-sm-4">
+        <label for="exampleInputPassword1">Atividade Primaria</label>
+        <select  name="atividade2"  class="select1 cnaeList col-sm-12">
+            <option></option>
+        </select>
+    </div>
+    <div class="col-sm-4" style="margin-top:5px">
+
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-top: 7px;">
+    Adicionar
+    <span class="caret"></span>
+  </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="javascript:;" class="addEmailButton2">Atividade Secundaria</a></li>
+                <li><a href="javascript:;" class="addEmailButton2">Atividade Tercearia</a></li>
+                <li><a href="javascript:;" class="addEmailButton2">Atividade Quarta</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="javascript:;" class="addEmailButton2">Outros Atividades</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Template for dynamic field -->
+<div class="row" id="template-cnae" style="display: none;">
+    <div class="col-sm-4">
+        <label for="exampleInputPassword1" class="control-label">Cnae</label>
+        <select   class="select2 cnaeList col-sm-12"><option></option></select>
+    </div>
+    <div class="col-sm-4" style="margin-top:15px">
+        <button type="button" class="btn btn-link removeButton2">deletar</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+//debugger
+var bookIndex = 0;
+
+        $('.addEmailButton2').on('click', function() {
+
+            var $that     = $(this),
+                $template = $('#template-cnae'),
+                $newRow   = $template.clone().removeAttr('id').insertBefore($template).show();
+                 $(".select").select2("destroy");
+
+            $that.parent().addClass('disabled');
+
+            // Set the label and field name
+            var fieldName = $that.attr('data-name');
+            $newRow
+                .find('.control-label')
+                    .html($that.html())
+                    .end()
+                .find('input')
+                    .attr('name', fieldName)
+                    .end()
+
+
+                .on('click', '.removeButton2', function() {
+                    // Remove field when clicking the Remove button
+                    $('#empresaForm').formValidation('removeField', fieldName);
+
+                    // Enable the Add button
+                    $that.parent().removeClass('disabled');
+
+                    // Remove element
+                    $newRow.remove();
+                });
+
+            // Add new field
+            $('#empresaForm').formValidation('addField', fieldName, {
+                message: 'The phone number is not valid',
+                validators: {
+                    digits: {
+                        message: 'The value can contain only digits'
+                    }
+                }
+            });
+
+            $newRow.find('select').select2({
+              placeholder: "Select a state",
+              allowClear: true
+            })
+
+
+
+        });
+
+
+                var fnCallbackCnae = function(res){
+                var planos = "";
+
+               if(res.operationSuccess == true)
+               {
+
+                     var cnaes = "";
+
+                           if(res.operationSuccess == true)
+                           {
+                               for(var x = 0 ;x < res.cnaeList.length;x++)
+                               {
+                                   cnaes = cnaes + "<option value='"+res.cnaeList[x].id+"'> "+res.cnaeList[x].cnae+"</option>";
+                               }
+                                $('.cnaeList').append(cnaes);
+
+                                $(".select1").select2({
+                                      placeholder: "Select a state",
+                                      allowClear: true
+                                    });
+                           }
+               }
+
+            }
+
+            qat.model.select.util("fiscal/api/cnae/fetchPage",true,new qat.model.planoInquiryRequest( 100/20, true, JSON.parse(localStorage.getItem("empresa")).id),fnCallbackCnae);
+
+
+            });
+    </script>

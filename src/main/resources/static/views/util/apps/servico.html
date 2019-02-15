@@ -1,0 +1,127 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<form ng-submit="submit()" id="servicosForm">
+    <div class="row servicos">
+      <div class="col-sm-5">
+          <label for="exampleInputPassword1">Servico</label>
+          <div class="row ">
+              <select id="servico" name="book[0].servico" class="servicoList select15 col-sm-12">
+          </select>
+          </div>
+      </div>
+      <div class="col-sm-2">
+          <div class="form-group">
+              <label for="exampleInputPassword1">Desconto</label>
+              <input type="text" class="form-control servico-desc" name="book[0].desconto" placeholder="R$0,00" />
+          </div>
+      </div>
+      <div class="col-xs-1" style="margin-top:18px">
+          <button type="button" class="btn btn-default addButton30"><i class="fa fa-plus"></i></button>
+      </div>
+  </div>
+    <div class="form-group hide" id="ServicoTemplate">
+      <div class="row servicos">
+          <div class="col-sm-5">
+              <label for="exampleInputPassword1">Servico</label>
+              <div class="row ">
+                  <select id="book[0].servico" name="book[0].servico" class="servicoList select20 col-sm-12">
+
+                      </select>
+              </div>
+          </div>
+          <div class="col-sm-2">
+              <div class="form-group">
+                  <label for="exampleInputPassword1">Desconto</label>
+                  <input type="text" class="form-control servico-desc" name="book[0].desconto" placeholder="R$0,00" />
+              </div>
+          </div>
+          <div class="col-xs-1" style="margin-top:18px">
+              <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+          </div>
+      </div>
+  </div>
+
+</form>
+<script>
+    $(document).ready(function() {
+      var bookIndex = 0;
+        $('#servicosForm')
+            .formValidation({
+                framework: 'bootstrap',
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+
+                    'book[0].servico': notEmptyStringMinMaxRegexp,
+                    'book[0].valor': notEmptyStringMinMax
+
+                }
+            }).on('click', '.addButton30', function() {
+                bookIndex++;
+                var $template = $('#ServicoTemplate'),
+                    $clone = $template
+                    .clone()
+                    .removeClass('hide')
+                    .removeAttr('id')
+                    .attr('data-book-index', bookIndex)
+                    .insertBefore($template);
+
+                // Update the name attributes
+                $clone
+                    .find('[name="servico"]').attr('name', 'book[' + bookIndex + '].cpf').end()
+                    .find('[name="servico-valor"]').attr('name', 'book[' + bookIndex + '].nome').end()
+                    .find('[name="servico-desc"]').attr('name', 'book[' + bookIndex + '].cota').end();
+
+                // Add new fields
+                // Note that we also pass the validator rules for new field as the third parameter
+                $('#servicoForm')
+                    .formValidation('addField', 'book[' + bookIndex + '].servico', notEmptyStringMinMaxRegexp)
+                    .formValidation('addField', 'book[' + bookIndex + '].valor', notEmptyStringMinMaxRegexp);
+            $clone.find('select').select2({
+                    placeholder: "Select a state",
+                    allowClear: true
+                  })
+            }).on('click', '.removeButton2', function() {
+                    // Remove field when clicking the Remove button
+                    $('#planoForm').formValidation('removeField', $template);
+
+                    // Enable the Add button
+                    $that.parent().removeClass('disabled');
+
+                    // Remove element
+                    $clone.remove();
+                });
+
+
+
+           var callback = function(res){
+                var servicos = "";
+                var preco = 0;
+
+               if(res.operationSuccess == true)
+               {
+                   if(res.servicoList.length > 0)
+                   {
+                   for(var x = 0 ;x < res.servicoList.length;x++)
+                   {
+                        if(res.servicoList[x].precoList != undefined && res.servicoList[x].precoList.length > 0){
+                          preco = res.servicoList[x].precoList[res.servicoList[x].precoList.length -1].valor
+                        }
+                       servicos = servicos + "<option value='"+res.servicoList[x].id+"'> "+res.servicoList[x].descricao+" <sup> "+ preco+"</sup></option>";
+                   }
+                    $('.servicoList').append(servicos);
+
+                    $(".select15").select2({
+                          placeholder: "Select a state",
+                          allowClear: true
+                        });
+               }
+             }
+
+            }
+
+            qat.model.select.util("site/api/servico/fetchPage",true,new qat.model.planoInquiryRequest( 100/20, true, JSON.parse(localStorage.getItem("empresa")).id),callback);
+    });
+</script>

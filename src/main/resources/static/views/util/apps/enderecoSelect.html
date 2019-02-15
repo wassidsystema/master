@@ -1,0 +1,29 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+<!-- ------------------------------------- -->
+<!-- ------------------------------------- -->
+
+<!-- -------------------  Email Empresa ----------------- -->
+<div class="row">
+    <div class="col-sm-12">
+        <label for="exampleInputPassword1">Endereco de Entrega</label>
+        <select  name="atividade2" ng-model="notaFiscalSaida.frete.endereco" class="select2 enderecoList col-sm-12">
+           <option ng-repeat="option in enderecos" value="{{option}}" >{{option.cep}} {{option.logradouro}} {{option.numero}} {{option.bairro}} {{option.cidade.nome}}</option>
+
+        </select>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+
+
+
+            });
+    </script>

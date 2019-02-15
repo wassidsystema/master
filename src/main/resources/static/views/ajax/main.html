@@ -1,0 +1,86 @@
+<div class="preloader" data-ng-controller="PrincipalController as vm">
+	<div class="row">
+		<div id="breadcrumb" class="col-xs-12"
+			style="margin-bottom: 0px; background: #DBDBDB; line-height: 25px; margin-bottom: 1%">
+			<button ng-click="pespectivaToggle('F')"
+				style="margin-left: 2%; width: 3%;" class="show-sidebar">
+				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
+			</button>
+			<button ng-click="pespectivaToggle('G')"
+				style="margin-left: 0%; width: 3%;" class="show-sidebar">
+				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
+			</button>
+			<button href="#" style="margin-left: 0%; width: 3%;"
+				class="show-sidebar">
+				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
+			</button>
+			<button href="#" style="margin-left: 2%; width: 3%;"
+				class="show-sidebar">
+				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
+			</button>
+			<div class="pull-right" style="width: 20%;">
+				<button href="#" style="margin-left: 2%; width: 15%;"
+					class="show-sidebar">
+					<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
+				</button>
+				<button href="#" style="margin-left: 2%; width: 15%;"
+					class="show-sidebar">
+					<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+	<div id="ajax-content">
+		<div class="row">
+			<span>{{pespectiva}}</span>
+			<div style="margin-left: 2%; margin-right: 2%; width: 96%"
+				ng-show="pespectiva=='G'">
+
+				<my-app> <span class="devoops-getdata" alt="preloader" >Carregando...<br><img src="img/devoops_getdata.gif"/></span> </my-app>
+			</div>
+			<div style="margin-left: 2%; margin-right: 2%; width: 96%;"
+				ng-show="pespectiva=='F'">
+				<div>
+
+					<form ng-submit="onSubmit()" name="vm.form" novalidate>
+						<formly-form model="vm.model" fields="vm.fields"
+							options="vm.options" form="vm.form"> <uib-tabset>
+						<uib-tab ng-repeat="tab in vm.tabs" heading="{{tab.title}}"
+							active="tab.active" disable="tab.disabled"> <formly-form
+							model="tab.form.model" fields="tab.form.fields" form="vm.form"
+							options="tab.form.options"> </formly-form> </uib-tab>
+						<button type="submit" class="btn btn-primary submit-button"
+							ng-disabled="vm.form.$invalid">Gravar</button>
+						<button type="button" class="btn btn-default"
+							ng-click="vm.resetAllForms()">Limpar</button>
+						</tabset>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<!-- <tabs ng-controller="MainCtrl"> -->
+<!--     <pane heading="Partial" src="views/ajax/dashboard.html">Custom Loading text...</pane> -->
+<!--     <pane heading="Error!" src="views/ajax/charts_google.html">Loading more...</pane> -->
+<!--     <pane heading="Custom error handler!" src="views/ajax/forms_layouts.html" src-error="customError(response)">{{content}}</pane> -->
+<!--     <pane heading="Interesting?" src="{{dynamicSrc}}" src-loaded="loaded()">Please wait..</pane> -->
+<!--     <pane ng-repeat="pane in panes" heading="{{pane.title}}" src="{{pane.src}}" active="pane.active">{{pane.content}}</pane> -->
+<!--   </tabs>  -->
+
+<script>
+        var appLocation = '';
+        var boilerplatePath = '';
+        var systemJsMap = {"ag-grid-community":"https:\/\/unpkg.com\/ag-grid-community@19.1.4\/dist\/ag-grid-community.js","ag-grid-community\/main":"https:\/\/unpkg.com\/ag-grid-community@19.1.4\/dist\/ag-grid-community.js","ag-grid-enterprise":"https:\/\/unpkg.com\/ag-grid-enterprise@19.1.4\/","ag-grid-react":"npm:ag-grid-react@19.1.2\/","ag-grid-angular":"npm:ag-grid-angular@19.1.2\/","ag-grid-vue":"npm:ag-grid-vue@19.1.2\/"};
+    </script>
+
+<script src="js/systemjs.config.js"></script>
+
+<script>
+    System.import('js/main.ts').catch(function(err){ console.error(err); });
+    </script>
