@@ -242,8 +242,22 @@
         vm.originalTabs = angular.copy(vm.form);
 
         // function definition
+        
         function onSubmit() {
+        	alert(JSON.stringify(vm.model), null, 2);
+        	debugger
             invokeOnAllFormOptions('updateInitialValue');
+            SysMgmtData.processPostPageData("/crud/insert", {
+
+            }, function (res) {
+                if (res) {
+                    vm.site = new qat.model.Site(res);
+                    console.log(res.empresa)
+                    if (res.empresa) {
+                        localStorage.setItem("empresa", JSON.stringify(res.empresa));
+                    }
+                }
+            });
             alert(JSON.stringify(vm.model), null, 2);
         }
 

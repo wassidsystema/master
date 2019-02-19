@@ -372,6 +372,30 @@ qat.model.ServicoByPlano = function(_oObjet, $log) {
         $log.info("add Serviรงo");
 }
 
+//Site Object
+qat.model.TreeValor = function(_oObjet, $log) {
+
+	this.chave = _oObjet.chave;
+	this.valor = _oObjet.valor;
+	this.tipo  = _oObjet.tipo;
+
+    if ($log)
+        $log.info("add Serviรงo");
+}
+
+qat.model.CrudRequest = function(_oObjet, $log) {
+
+	this.campos = _oObjet.campos;
+	this.tabela _oObjet.tabela;
+    this.createUser = $rootScope.user;
+    this.createDateUTC = (new Date()).getTime();
+    this.modifyUser = $rootScope.user;
+    this.modifyDateUTC = (new Date()).getTime();
+
+    if ($log)
+        $log.info("add Serviรงo");
+}
+
 /** create by system gera-java version 1.0.0 19/05/2016 15:9 : 2*/
 
 //Site Object
