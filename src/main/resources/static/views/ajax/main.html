@@ -1,42 +1,598 @@
+<style>
+sk-dynaform .container .dynaform-body .top-bar {
+    background-color: #f0f0f0;
+    min-height: 40px;
+}
+.high-contrast-panel, .high-contrast-panel .sk-form {
+    background-color: #e4e4e4;
+}
+* {
+    outline: 0;
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+user agent stylesheet
+div {
+    display: block;
+}
+[layout=column], [layout=row] {
+    -webkit-box-direction: normal;
+}
+[layout=column], [layout=row] {
+    -webkit-box-direction: normal;
+}
+[layout=column], [layout=row] {
+    -webkit-box-direction: normal;
+}
+[layout=column], [layout=row] {
+    -webkit-box-direction: normal;
+}
+[layout=column], [layout=row] {
+    -webkit-box-direction: normal;
+}
+[layout=column], [layout=row] {
+    -webkit-box-direction: normal;
+}
+[layout=column], [layout=row] {
+    -webkit-box-direction: normal;
+}
+body {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    color: #333;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+.img-thumbnail, body, output, pre {
+    line-height: 1.4;
+}
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+html {
+    font-size: 10px;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+</style>
+
 <div class="preloader" data-ng-controller="PrincipalController as vm">
-	<div class="row">
-		<div id="breadcrumb" class="col-xs-12"
-			style="margin-bottom: 0px; background: #DBDBDB; line-height: 25px; margin-bottom: 1%">
-			<button ng-click="pespectivaToggle('F')"
-				style="margin-left: 2%; width: 3%;" class="show-sidebar">
-				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
-			</button>
-			<button ng-click="pespectivaToggle('G')"
-				style="margin-left: 0%; width: 3%;" class="show-sidebar">
-				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
-			</button>
-			<button href="#" style="margin-left: 0%; width: 3%;"
-				class="show-sidebar">
-				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
-			</button>
-			<button href="#" style="margin-left: 2%; width: 3%;"
-				class="show-sidebar">
-				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
-			</button>
-			<div class="pull-right" style="width: 20%;">
-				<button href="#" style="margin-left: 2%; width: 15%;"
-					class="show-sidebar">
-					<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
+
+	<div class="top-bar high-contrast-panel dynaform-top-bar-002">
+		<sk-fixed-bar-context sk-fixed-bar="dynaform-top-bar-002"
+			sk-name="Erros Conhecidos" sk-context="controller"
+			sk-force-context="forceFixedBarContext"
+			sk-is-active="contextIsActive"
+			sk-fixed-bar-position-ref="dynaform-content-002.content"
+			class="ng-isolate-scope"></sk-fixed-bar-context>
+		<span
+			ng-show="parentDynaformIsMaster() &amp;&amp; !parentDynaformIsHierarchy()  &amp;&amp; showDetailDescription"
+			class="detail-entity-description ng-binding ng-hide">Erros
+			Conhecidos</span>
+		<div class="buttons-container">
+			<div class="left-container" layout="" layout-wrap="">
+				<button
+					class="btn btn-default btn-sk-sm btn-start-page margin-right"
+					ng-click="goToStartPage()"
+					ng-show="isMasterDynaform() &amp;&amp; !skipStartPage"
+					sk-translate="Dynaform.tooltipEntityStartPage"
+					sk-translate-attr="tooltip" tooltip="Ir para a Página inicial"
+					tooltip-placement="right">
+					<sk-icon font-icon="home" class="ng-isolate-scope no-text">
+					<span ng-disabled="!enabled" ng-show="visible !== false"
+						ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+						class="glyphicons glyphicons-home"></span></sk-icon>
 				</button>
-				<button href="#" style="margin-left: 2%; width: 15%;"
-					class="show-sidebar">
-					<i class="fa fa-bars" style="width: 100%; height: 100%;"></i>
-				</button>
+				<!-- ngIf: showPersonalizedFilterButton() && !hasDynamicFilter -->
+				<sk-personalized-filter id="personalized-filter-002"
+					sk-data-source="dataset" sk-load-on-create="false"
+					sk-entity-name="AD_FGTECO"
+					sk-has-some-active-filter="hasSomeActiveFilter.value"
+					sk-resource-id="br.com.sankhya.menu.adicional.AD_FGTECO"
+					ng-if="showPersonalizedFilterButton() &amp;&amp; !hasDynamicFilter"
+					class="margin-right ng-scope ng-isolate-scope">
+				<div class="btn-group dropdown btn-filter-start-page ng-scope"
+					dropdown="" dropdown-append-to-body="" auto-close="outsideClick"
+					is-open="states.isDropdownOpen">
+					<button type="button" ng-disabled="configDisabled"
+						ng-click="openFilter()"
+						class="btn btn-filter btn-sk-sm btn-danger" tooltip="Filtros"
+						tooltip-placement="bottom" tooltip-append-to-body="true"
+						ng-class="getButtonColor()">
+						<sk-icon font-icon="filter" class="ng-isolate-scope no-text">
+						<span ng-disabled="!enabled" ng-show="visible !== false"
+							ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+							class="glyphicons glyphicons-filter"></span></sk-icon>
+					</button>
+					<!-- ngIf: !(showDropdownFilter === false) -->
+					<button type="button" ng-if="!(showDropdownFilter === false)"
+						class="btn dropdown-toggle ng-scope btn-danger"
+						ng-class="getButtonColor()" dropdown-toggle=""
+						aria-haspopup="true" aria-expanded="false">
+						<span class="caret"></span>
+					</button>
+					<!-- end ngIf: !(showDropdownFilter === false) -->
+				</div>
+				</sk-personalized-filter>
+				<!-- end ngIf: showPersonalizedFilterButton() && !hasDynamicFilter -->
+				<!-- ngIf: hasDynamicFilter -->
+				<div class="btn-group btn-change-face-group dropdown margin-right-5"
+					dropdown="" dropdown-append-to-body="">
+					<button class="btn btn-default btn-sk-sm btn-change-face"
+						ng-click="changeViewMode()" tooltip="Modo formulário [F6]"
+						tooltip-placement="bottom" tooltip-append-to-body="true">
+						<sk-icon font-icon="list" class="ng-isolate-scope no-text">
+						<span ng-disabled="!enabled" ng-show="visible !== false"
+							ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+							class="glyphicons glyphicons-list"></span></sk-icon>
+					</button>
+					<!-- ngIf: isActiveOnToolBarManager('useGridConfigger') -->
+					<button type="button"
+						class="btn btn-default dropdown-toggle ng-scope"
+						ng-if="isActiveOnToolBarManager('useGridConfigger')"
+						dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+						<span class="caret"></span>
+					</button>
+					<!-- end ngIf: isActiveOnToolBarManager('useGridConfigger') -->
+				</div>
+				<!-- ngIf: isActiveOnToolBarManager('useNavigator') -->
+				<sk-navigator ng-if="isActiveOnToolBarManager('useNavigator')"
+					dataset="dataset" sk-disabled="navigatorOptions.disableNavigator"
+					sk-show-navigation="navigatorOptions.showNavigation &amp;&amp; isActiveOnToolBarManager('useNavNavigationButtons')"
+					sk-show-copy-button="(navigatorOptions.showCopyButton &amp;&amp; isActiveOnToolBarManager('useNavCopyButton')) || (tour.startTour == true)"
+					sk-show-remove-button="navigatorOptions.showRemoveButton &amp;&amp; isActiveOnToolBarManager('useNavRemoveButton')"
+					sk-show-refresh-button="navigatorOptions.showRefreshButton &amp;&amp; isActiveOnToolBarManager('useNavRefreshButton')"
+					sk-show-cancel-button="navigatorOptions.showCancelButton &amp;&amp; isActiveOnToolBarManager('useNavCancelButton')"
+					sk-show-save-button="navigatorOptions.showSaveButton &amp;&amp; isActiveOnToolBarManager('useNavSaveButton')"
+					sk-show-add-button="navigatorOptions.showAddButton"
+					sk-add-function="newRecord(); closeSidenav()"
+					sk-edit-unique-record="editUniqueRecord" sk-compact-btn-add="true"
+					class="btn-nav ng-scope ng-isolate-scope">
+				<div class="record-navigator">
+					<div class="btn-group no-margin-left"
+						ng-show="isShowAddButton() &amp;&amp; !(showCrud === false)">
+						<sk-btn-novo sk-entity-description="Erros Conhecidos"
+							sk-on-click="newRecord()" class="ng-isolate-scope">
+						<button class="btn btn-brand btn-novo-registro"
+							ng-class="{'sk-compact': compact}"
+							ng-disabled="enabled === false"
+							ng-click="addFn(undefined, $event)"
+							tooltip="Cadastrar Erros Conhecidos [F8]"
+							tooltip-append-to-body="true" tooltip-placement="right">
+							<div class="icon-container">
+								<sk-icon font-icon="plus" class="ng-isolate-scope">
+								<span ng-disabled="!enabled" ng-show="visible !== false"
+									ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+									class="glyphicons glyphicons-plus"></span></sk-icon>
+							</div>
+							<span class="entity-description ng-binding"
+								ng-bind="getEntityDescription()">Erros Conhecidos</span>
+						</button>
+						</sk-btn-novo>
+					</div>
+					<!-- ngIf: (isShowSaveButton() || isShowCancelButton()) && !(showCrud === false) -->
+					<!-- ngIf: isShowPreviousButton() || isShowNextButton() -->
+					<div class="btn-group nav-group btn-control ng-scope"
+						ng-if="isShowPreviousButton() || isShowNextButton()">
+						<!-- ngIf: isShowPreviousButton() -->
+						<button class="btn btn-default ng-scope"
+							ng-if="isShowPreviousButton()" ng-disabled="!btnPrevEnabled"
+							ng-click="previous()" tooltip="Anterior [Ctrl + <]"
+							tooltip-placement="bottom" tooltip-append-to-body="true"
+							disabled="disabled">
+							<sk-icon svg-src="back.svg"
+								class="ng-isolate-scope no-text svg-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="100%"
+								height="100%" viewBox="0 0 199.404 199.404" fit=""
+								preserveAspectRatio="xMidYMid meet"
+								style="pointer-events: none; display: block;">
+								<path
+									d="M135.412 0L35.71 99.702l99.702 99.702 28.283-28.285L92.277 99.7l71.418-71.417"></path></svg></sk-icon>
+						</button>
+						<!-- end ngIf: isShowPreviousButton() -->
+						<!-- ngIf: isShowNextButton() -->
+						<button class="btn btn-default ng-scope"
+							ng-if="isShowNextButton()" ng-disabled="!btnNextEnabled"
+							ng-click="next()" tooltip="Próximo [Ctrl + >]"
+							tooltip-placement="bottom" tooltip-append-to-body="true"
+							disabled="disabled">
+							<sk-icon svg-src="next.svg"
+								class="ng-isolate-scope no-text svg-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="100%"
+								height="100%" viewBox="0 0 199.404 199.404" fit=""
+								preserveAspectRatio="xMidYMid meet"
+								style="pointer-events: none; display: block;">
+								<path
+									d="M63.993 199.404l99.702-99.702L63.993 0 35.71 28.285l71.417 71.417L35.71 171.12"></path></svg></sk-icon>
+						</button>
+						<!-- end ngIf: isShowNextButton() -->
+					</div>
+					<!-- end ngIf: isShowPreviousButton() || isShowNextButton() -->
+					<!-- ngIf: !isView() && !btnSaveVisible && !editUniqueRecord && !(showCrud === false) -->
+					<div class="btn-group ng-scope"
+						ng-if="!isView() &amp;&amp; !btnSaveVisible &amp;&amp; !editUniqueRecord &amp;&amp; !(showCrud === false)">
+						<!-- ngIf: !(showRemoveButton === false) -->
+						<button class="btn btn-sk-sm btn-default btn-remove ng-scope"
+							ng-if="!(showRemoveButton === false)"
+							ng-disabled="!btnRemoveEnabled" ng-click="remove()"
+							tooltip="Excluir [F9]" tooltip-placement="bottom"
+							tooltip-append-to-body="true" disabled="disabled">
+							<sk-icon font-icon="bin" class="ng-isolate-scope no-text">
+							<span ng-disabled="!enabled" ng-show="visible !== false"
+								ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+								class="glyphicons glyphicons-bin"></span></sk-icon>
+						</button>
+						<!-- end ngIf: !(showRemoveButton === false) -->
+						<!-- ngIf: !(showCopyButton === false) -->
+						<button class="btn btn-sk-sm btn-default btn-clone ng-scope"
+							ng-if="!(showCopyButton === false)"
+							ng-disabled="!btnCloneEnabled" ng-click="clone()"
+							tooltip="Duplicar" tooltip-placement="bottom"
+							tooltip-append-to-body="true" disabled="disabled">
+							<sk-icon font-icon="duplicate" class="ng-isolate-scope no-text">
+							<span ng-disabled="!enabled" ng-show="visible !== false"
+								ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+								class="glyphicons glyphicons-duplicate"></span></sk-icon>
+						</button>
+						<!-- end ngIf: !(showCopyButton === false) -->
+						<!-- ngIf: btnEditEnabled -->
+					</div>
+					<!-- end ngIf: !isView() && !btnSaveVisible && !editUniqueRecord && !(showCrud === false) -->
+					<!-- ngIf: btnRefreshEnabled && !editUniqueRecord && !(showRefreshButton === false) && !(showCrud === false) -->
+					<div class="btn-group ng-scope"
+						ng-if="btnRefreshEnabled &amp;&amp; !editUniqueRecord &amp;&amp; !(showRefreshButton === false) &amp;&amp; !(showCrud === false)">
+						<button class="btn btn-sk-sm btn-default btn-refresh"
+							ng-click="refresh()" tooltip="Atualizar"
+							tooltip-placement="bottom" tooltip-append-to-body="true">
+							<sk-icon font-icon="refresh" class="ng-isolate-scope no-text">
+							<span ng-disabled="!enabled" ng-show="visible !== false"
+								ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+								class="glyphicons glyphicons-refresh"></span></sk-icon>
+						</button>
+					</div>
+					<!-- end ngIf: btnRefreshEnabled && !editUniqueRecord && !(showRefreshButton === false) && !(showCrud === false) -->
+				</div>
+				<script type="text/ng-template" id="popoverEditionAlert.html"><div>
+        <span class="text" sk-translate>Navigator.lblEditandoRegistro</span>
+        <button class="close" ng-click="hide()">
+            <sk-icon svg-src="cancel.svg"></sk-icon>
+        </button>
+    </div></script></sk-navigator>
+				<!-- end ngIf: isActiveOnToolBarManager('useNavigator') -->
 			</div>
+			<div class="right-container" layout="" layout-wrap="">
+				<!-- ngIf: !isHierarchyDynaform() && isMasterDynaform() && !hideEntitySearchField -->
+				<div class="entity-search-container margin-right ng-scope"
+					ng-if="!isHierarchyDynaform() &amp;&amp; isMasterDynaform() &amp;&amp; !hideEntitySearchField">
+					<sk-typeahead-input id="entitySearchField"
+						sk-value="dynaformCtrl.entitySearch" sk-clear-after-select="true"
+						sk-placeholder="Pesquisar registros..."
+						sk-get-options="loadEntitySuggestions"
+						sk-is-loading="isSearchingEntity" sk-key="label" sk-label="label"
+						sk-on-select="pesqEntitySelect" sk-show-more="true"
+						sk-show-more-fn="showMoreEntityPesqResults()"
+						sk-template-url="entitySearch.html" sk-external-action="true"
+						sk-append-to-body="true" sk-min-length="1"
+						class="ng-isolate-scope">
+					<input type="text"
+						class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+						ng-model="value" ng-disabled="!enabled"
+						ng-change="changeHandler($event)"
+						ng-attr-placeholder="{{placeholder}}"
+						sk-typeahead="item.label as item.label for item in getOptions($viewValue)  "
+						sk-typeahead-min-length="1" sk-typeahead-loading="isLoading"
+						sk-typeahead-on-select="onSelectItem($item, $model, $label)"
+						sk-typeahead-external-action="true"
+						sk-typeahead-template-url="entitySearch.html"
+						sk-typeahead-load-on-focus="" sk-typeahead-append-to-body="true"
+						sk-typeahead-wait-ms="300" aria-autocomplete="list"
+						aria-expanded="false" aria-owns="typeahead-65-1856"
+						placeholder="Pesquisar registros..."></sk-typeahead-input>
+					<sk-icon font-icon="search" class="btn-search ng-isolate-scope"
+						ng-class="{active: dynaformCtrl.entitySearch}">
+					<span ng-disabled="!enabled" ng-show="visible !== false"
+						ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+						class="glyphicons glyphicons-search"></span></sk-icon>
+				</div>
+				<!-- end ngIf: !isHierarchyDynaform() && isMasterDynaform() && !hideEntitySearchField -->
+				<div class="btn-group">
+					<!-- ngIf: isMasterDynaform() && !hideButtonFavorite -->
+					<button default="" small=""
+						class="btn-favorite btn btn-default btn-sk-sm ng-scope ng-isolate-scope"
+						ng-if="isMasterDynaform() &amp;&amp; !hideButtonFavorite"
+						sk-popover="" popover-template-url="favoritesRecentsEntities.html"
+						create-on-load="false"
+						properties="getEntitdadesFavoritasProperties"
+						show-btn-apply="false" show-btn-close="false" width="300"
+						height="auto" popover-placement="bottom"
+						always-load-properties="true"
+						popover-class="white-popover no-padding" hide-on-scroll="true"
+						absolute="true"
+						tooltip="Exibe os registros marcados como favoritos"
+						tooltip-placement="bottom" sk-i18n="">
+						<sk-icon font-icon="star" class="ng-isolate-scope no-text">
+						<span ng-disabled="!enabled" ng-show="visible !== false"
+							ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+							class="glyphicons glyphicons-star"></span></sk-icon>
+					</button>
+					<!-- end ngIf: isMasterDynaform() && !hideButtonFavorite -->
+					<!-- ngIf: isMasterDynaform() && !hideButtonRecents -->
+					<button default="" small=""
+						class="btn-recents btn btn-default btn-sk-sm ng-scope ng-isolate-scope"
+						ng-if="isMasterDynaform() &amp;&amp; !hideButtonRecents"
+						sk-popover="" popover-template-url="favoritesRecentsEntities.html"
+						create-on-load="false"
+						properties="getEntitdadesRecentesProperties"
+						show-btn-apply="false" show-btn-close="false" width="300"
+						height="auto" popover-placement="bottom"
+						always-load-properties="true"
+						popover-class="white-popover no-padding" hide-on-scroll="true"
+						absolute="true" tooltip="Exibe os registros recentemente editados"
+						tooltip-placement="bottom" sk-i18n="">
+						<sk-icon font-icon="stopwatch" class="ng-isolate-scope no-text">
+						<span ng-disabled="!enabled" ng-show="visible !== false"
+							ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+							class="glyphicons glyphicons-stopwatch"></span></sk-icon>
+					</button>
+					<!-- end ngIf: isMasterDynaform() && !hideButtonRecents -->
+				</div>
+				<!-- ngIf: !editUniqueRecord && isActiveOnToolBarManager('useGridPrinter') -->
+				<sk-grid-printer sk-grid-controller="gridController"
+					ng-if="!editUniqueRecord &amp;&amp; isActiveOnToolBarManager('useGridPrinter')"
+					class="btn-export ng-scope ng-isolate-scope"
+					sk-title="Erros Conhecidos" sk-create-grid-fn="createGrid">
+				<div class="btn-group">
+					<button class="btn btn-default btn-sk-sm"
+						ng-click="choosedPrintType('pdf')" ng-disabled="enabled === false"
+						tooltip="Exportar grade para PDF" tooltip-placement="bottom"
+						tooltip-append-to-body="true">
+						<sk-icon font-icon="file-export" class="ng-isolate-scope no-text">
+						<span ng-disabled="!enabled" ng-show="visible !== false"
+							ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+							class="glyphicons glyphicons-file-export"></span></sk-icon>
+					</button>
+					<button type="button"
+						class="btn btn-default dropdown-toggle ng-isolate-scope"
+						sk-popover="" popover-template-url="gridPrinter.html"
+						always-load-properties="true" create-on-load="false"
+						show-btn-apply="false" show-btn-close="false" width="440"
+						height="auto"
+						popover-class="white-popover sk-gridprinter-popover "
+						properties="ctrl.getGridPrinterProperties"
+						controller-name="SkGridPrinterPopOverController"
+						popover-listeners="enableDisableMoreOptions"
+						ng-disabled="enabled === false">
+						<span class="caret"></span>
+					</button>
+				</div>
+				<script type="text/ng-template" id="gridPrinter.html"><div class="actions-container actions-container-cursor">
+        <div layout-wrap layout="row">
+            <div class="action-item {{ action.type }}" ng-repeat="action in menuOpt"
+                 ng-click="choosedPrintType(action.type); hide()" layout="column" layout-align="start center"
+                 tooltip="{{::action.description}}" tooltip-placement="bottom">
+                <div class="img-container">
+                    <sk-icon svg-src="{{::getIcon(action.type) }}"></sk-icon>
+                </div>
+                <span class="action-label" ng-bind="::action.description">
+                </span>
+            </div>
+            <div class="separator-container" ng-repeat="tree in dynamicOptions track by $index" layout-wrap layout="row">
+                <div class="separator-title" ng-bind="tree.description"></div>
+                <div class="action-item" ng-repeat="child in tree.children track by $index"
+                     ng-click="itemClickReport(child); hide()" layout="column" layout-align="start center">
+                    <div class="img-container">
+                        <div ng-if="::!actionHasImage(child)" class="nick-contaner"
+                             ng-style="{'background-color': textToColor(child.description)}"
+                             tooltip="{{::child.description}}" tooltip-placement="bottom">
+                            <span ng-bind="::buildNick(child)"></span>
+                        </div>
+                    </div>
+                <span class="action-label" ng-bind="::child.description">
+                </span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="show-more-container">
+        <a class="show-more-link" ng-click="showMore()">Mostrar mais</a>
+    </div></script></sk-grid-printer>
+				<!-- end ngIf: !editUniqueRecord && isActiveOnToolBarManager('useGridPrinter') -->
+				<!-- ngIf: (!isView && !editUniqueRecord && isActiveOnToolBarManager('useNavAttachmentButton')) && hideButtonEntityAttach != true -->
+				<sk-entity-attach id="dynAttach" sk-dataset="dataset"
+					sk-entity-name="AD_FGTECO"
+					sk-resource-id="br.com.sankhya.menu.adicional.AD_FGTECO"
+					ng-if="(!isView &amp;&amp; !editUniqueRecord &amp;&amp; isActiveOnToolBarManager('useNavAttachmentButton')) &amp;&amp; hideButtonEntityAttach != true "
+					class="ng-scope ng-isolate-scope">
+				<button type="button" ng-disabled="configDisabled"
+					class="btn btn-default btn-sk-sm" ng-click="showInfo()"
+					tooltip="Anexo" tooltip-append-to-body="true"
+					tooltip-placement="bottom" disabled="disabled">
+					<sk-icon font-icon="paperclip" class="ng-isolate-scope no-text">
+					<span ng-disabled="!enabled" ng-show="visible !== false"
+						ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+						class="glyphicons glyphicons-paperclip"></span></sk-icon>
+				</button>
+				<script type="text/ng-template" id="attach.html"><div layout="column" class="attach-container" flex>
+        <sk-dataset id="dsAnexo" entity-name="AnexoSistema" sk-save-handler="saveAttach()"></sk-dataset>
+        <div class="attach-buttons" layout="row" layout-align="space-between center">
+            <div>
+                <sk-btn-novo sk-entity-description="{{::'Attach.lblAnexo' | translate}}" sk-on-click="newAttach()" ng-show="selectedIndex == 0" >
+                </sk-btn-novo>
+                <button type="button" class="btn btn-default btn-sk-sm" ng-click="setSelectedIndex(1)" ng-show="ctrl.isMobile()" ng-disabled="hasRegister" tooltip="{{'Attach.editar' | translate}}" tooltip-placement="bottom" tooltip-append-to-body="true">
+                    <sk-icon font-icon="glyphicons glyphicons-pencil"></sk-icon>
+                </button>
+                <button type="button" class="btn btn-default btn-sk-sm" ng-click="deleteAttach()" ng-show="selectedIndex == 0" ng-disabled="hasRegister" tooltip="{{'Attach.excluir' | translate}}" tooltip-placement="bottom" tooltip-append-to-body="true">
+                    <sk-icon font-icon="bin"></sk-icon>
+                </button>
+                <button type="button" class="btn btn-default btn-sk-sm" ng-click="downloadAttach()" ng-show="selectedIndex == 0" ng-disabled="hasRegister" tooltip="{{'Attach.download' | translate}}" tooltip-placement="bottom" tooltip-append-to-body="true">
+                    <sk-icon font-icon="download-alt"></sk-icon>
+                </button>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-sk-sm" ng-click="validateAndSave()" ng-show="selectedIndex == 1" ng-disabled="uploaded" tooltip="{{'Navigator.lblSalvar' | translate}}" tooltip-placement="bottom" tooltip-append-to-body="true">
+                        <sk-icon font-icon="ok-2"></sk-icon>
+                    </button>
+                    <button class="btn btn-default" ng-click="cancelAttach()" ng-show="selectedIndex == 1" tooltip="{{'Navigator.lblDescartar' | translate}}" tooltip-placement="bottom" tooltip-append-to-body="true" translate>
+                        Attach.descartar
+                    </button>
+                </div>
+            </div>
+            <sk-rows-counter sk-dataset="dsAnexo"></sk-rows-counter>
+        </div>
+        <sk-viewstack sk-selected-index="selectedIndex" flex layout="column">
+            <sk-viewstack-content flex layout="column">
+                <sk-datagrid  id="attachDatagrid" sk-dataset="dsAnexo" sk-editable="false" sk-allow-multiple-selection="false" sk-on-dbl-click="setSelectedIndex(1)" sk-grid-config="{{gridConfigId}}"></sk-datagrid>
+            </sk-viewstack-content>
+            <sk-viewstack-content flex layout="column">
+                <sk-form properties="formFields" sk-inline="true" sk-form-interceptor="formInterceptor" sk-autofocus></sk-form>
+            </sk-viewstack-content>
+        </sk-viewstack>
+    </div></script></sk-entity-attach>
+				<!-- end ngIf: (!isView && !editUniqueRecord && isActiveOnToolBarManager('useNavAttachmentButton')) && hideButtonEntityAttach != true -->
+				<!-- ngIf: (showActionButton || tour.startTour) && !editUniqueRecord -->
+				<sk-action-button
+					ng-if="(showActionButton || tour.startTour) &amp;&amp; !editUniqueRecord"
+					sk-entity-name="AD_FGTECO"
+					sk-resource-id="br.com.sankhya.menu.adicional.AD_FGTECO"
+					sk-access-resource-id="br.com.sankhya.menu.adicional.AD_FGTECO"
+					sk-context="datasetActionButtonContext"
+					class="ng-scope ng-isolate-scope">
+				<button class="btn btn-default btn-sk-sm ng-isolate-scope"
+					sk-popover="" popover-template-url="actionbutton.html"
+					create-on-load="false" properties="getActionButtonConfigProperties"
+					show-btn-apply="false" show-btn-close="false" width="300"
+					height="auto" popover-class="white-popover" tooltip="Ações"
+					tooltip-placement="bottom" tooltip-append-to-body="true"
+					tooltip-popup-delay="250">
+					<sk-icon svg-src="/mge/assets/svg/flash.svg"
+						class="ng-isolate-scope no-text svg-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.793 27.793"
+						fit="" height="100%" width="100%"
+						preserveAspectRatio="xMidYMid meet"
+						style="pointer-events: none; display: block;">
+						<path
+							d="M20.972 0L5.076 15.803h5.896L6.44 27.793 22.716 11.99H16.82"></path></svg></sk-icon>
+				</button>
+				<script type="text/ng-template" id="actionbutton.html"><div ng-if="::!actions" class="no-action-container" layout="column" layout-align="center center">
+        <span translate>BotaoAcao.nenhumaAcao</span>
+    </div>
+     <div ng-if="::actions" class="actions-container" layout-wrap layout="row">
+        <div class="action-item" ng-repeat="action in actions" ng-click="executeAction(action); hide()" layout="column" layout-align="start center" tooltip="{{::action.description}}" tooltip-placement="bottom" tooltip-popup-delay="250">
+            <div class="img-container">
+                <img ng-if="::actionHasImage(action)" ng-src="{{::getActionImage(action)}}">
+                <div ng-if="::!actionHasImage(action)" class="nick-contaner" ng-style="{'background-color': textToColor(action.description)}">
+                    <span ng-bind="::buildNick(action)"></span>
+                </div>
+            </div>
+            <span class="action-label" ng-bind="::action.description">
+            </span>
+        </div>
+         <div class="clearfix"></div>
+     </div></script></sk-action-button>
+				<!-- end ngIf: (showActionButton || tour.startTour) && !editUniqueRecord -->
+				<!-- ngIf: otherOptions -->
+				<!-- ngIf: !editUniqueRecord -->
+				<div class="btn-group dropdown btn-group-config ng-scope"
+					dropdown="" dropdown-append-to-body="" auto-close="outsideClick"
+					is-open="dropdownConfig.isOpen" ng-if="!editUniqueRecord">
+					<button type="button" class="btn btn-default btn-sk-sm"
+						ng-disabled="!isBtnConfigEnabled()"
+						ng-click="launchConfiguration()" tooltip="Configuração da Tela"
+						tooltip-placement="bottom" tooltip-append-to-body="true"
+						disabled="disabled">
+						<sk-icon font-icon="cogwheel" class="ng-isolate-scope no-text">
+						<span ng-disabled="!enabled" ng-show="visible !== false"
+							ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+							class="glyphicons glyphicons-cogwheel"></span></sk-icon>
+					</button>
+					<button type="button" class="btn btn-default dropdown-toggle"
+						dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+						<span class="caret"></span>
+					</button>
+				</div>
+				<!-- end ngIf: !editUniqueRecord -->
+				<!-- ngIf: dataset && !editUniqueRecord -->
+				<sk-rows-counter
+					class="btn-rows-counter ng-scope ng-isolate-scope sk-rows-counter"
+					ng-if="dataset &amp;&amp; !editUniqueRecord" sk-dataset="dataset">
+				<div class="rows-counter-div" tooltip="0 registros"
+					tooltip-placement="left">
+					<span ng-bind="count" class="ng-binding">0</span>
+				</div>
+				</sk-rows-counter>
+				<!-- end ngIf: dataset && !editUniqueRecord -->
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="compact-navbar">
+			<!-- ngIf: showSaveCancelOnCompactTopBar -->
+			<!-- ngIf: showSaveCancelOnCompactTopBar -->
 		</div>
 	</div>
+	
+	<!-- 	<div class="row"> -->
+	<!-- 		<div id="breadcrumb" class="col-xs-12" -->
+	<!-- 			style="margin-bottom: 0px; background: #DBDBDB; line-height: 25px; margin-bottom: 1%"> -->
+	<!-- 			<button ng-click="pespectivaToggle('F')" -->
+	<!-- 				style="margin-left: 2%; width: 3%;" class="show-sidebar"> -->
+	<!-- 				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i> -->
+	<!-- 			</button> -->
+	<!-- 			<button ng-click="pespectivaToggle('G')" -->
+	<!-- 				style="margin-left: 0%; width: 3%;" class="show-sidebar"> -->
+	<!-- 				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i> -->
+	<!-- 			</button> -->
+	<!-- 			<button href="#" style="margin-left: 0%; width: 3%;" -->
+	<!-- 				class="show-sidebar"> -->
+	<!-- 				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i> -->
+	<!-- 			</button> -->
+	<!-- 			<button href="#" style="margin-left: 2%; width: 3%;" -->
+	<!-- 				class="show-sidebar"> -->
+	<!-- 				<i class="fa fa-bars" style="width: 100%; height: 100%;"></i> -->
+	<!-- 			</button> -->
+	<!-- 			<div class="pull-right" style="width: 20%;"> -->
+	<!-- 				<button href="#" style="margin-left: 2%; width: 15%;" -->
+	<!-- 					class="show-sidebar"> -->
+	<!-- 					<i class="fa fa-bars" style="width: 100%; height: 100%;"></i> -->
+	<!-- 				</button> -->
+	<!-- 				<button href="#" style="margin-left: 2%; width: 15%;" -->
+	<!-- 					class="show-sidebar"> -->
+	<!-- 					<i class="fa fa-bars" style="width: 100%; height: 100%;"></i> -->
+	<!-- 				</button> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
 	<div id="ajax-content">
 		<div class="row">
 			<span>{{pespectiva}}</span>
 			<div style="margin-left: 2%; margin-right: 2%; width: 96%"
 				ng-show="pespectiva=='G'">
 
-				<my-app> <span class="devoops-getdata" alt="preloader" >Carregando...<br><img src="img/devoops_getdata.gif"/></span> </my-app>
+				<my-app> <span class="devoops-getdata" alt="preloader">Carregando...<br>
+				<img src="img/devoops_getdata.gif" /></span> </my-app>
 			</div>
 			<div style="margin-left: 2%; margin-right: 2%; width: 96%;"
 				ng-show="pespectiva=='F'">
@@ -55,7 +611,7 @@
 							ng-click="vm.resetAllForms()">Limpar</button>
 						</tabset>
 					</form>
-					
+
 				</div>
 			</div>
 		</div>

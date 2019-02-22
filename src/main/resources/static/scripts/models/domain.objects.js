@@ -383,6 +383,7 @@ qat.model.TreeValor = function(_oObjet, $log) {
         $log.info("add Serviรงo");
 }
 
+
 qat.model.CrudRequest = function(_oObjet, $log) {
 
 	this.campos = _oObjet.campos;

@@ -247,7 +247,11 @@
         	alert(JSON.stringify(vm.model), null, 2);
         	debugger
             invokeOnAllFormOptions('updateInitialValue');
-            SysMgmtData.processPostPageData("/crud/insert", {
+        	for (){
+        		
+        	}
+        	request = new qat.model.CrudRequest();
+            SysMgmtData.processPostPageData("/crud/insert", request, {
 
             }, function (res) {
                 if (res) {
